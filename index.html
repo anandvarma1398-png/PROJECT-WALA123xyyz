@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PROJECT WALA | Dream, Believe, Achieve</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+        }
+        .bg-primary { background-color: #1e40af; } /* Professional Blue */
+        .text-primary { color: #1e40af; }
+        .border-primary { border-color: #1e40af; }
+
+        .dropdown:hover .dropdown-menu {
+            display: block;
+        }
+
+        .sticky-header {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .hero-gradient {
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+        }
+
+        .whatsapp-float {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background-color: #25d366;
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50px;
+            text-align: center;
+            font-size: 30px;
+            box-shadow: 2px 2px 10px rgba(0,0,0,0.2);
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Section -->
+    <header class="sticky-header">
+        <div class="container mx-auto px-4 py-3 flex items-center justify-between">
+            <!-- Left Side: Logo & Tagline -->
+            <div class="flex flex-col">
+                <span class="text-2xl font-bold text-primary leading-tight">PROJECT WALA</span>
+                <span class="text-xs text-gray-500 italic">Dream, Believe, Achieve</span>
+            </div>
+
+            <!-- Center: Navigation Menu -->
+            <nav class="hidden md:flex items-center space-x-8">
+                <a href="#" class="font-medium hover:text-primary transition">Home</a>
+
+                <div class="relative dropdown">
+                    <button class="font-medium hover:text-primary transition flex items-center">
+                        Components <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                    </button>
+                    <div class="dropdown-menu absolute hidden bg-white shadow-lg border rounded-md mt-2 w-48 py-2">
+                        <a href="#" class="block px-4 py-2 hover:bg-blue-50 text-gray-700">Accelerometers</a>
+                        <a href="#" class="block px-4 py-2 hover:bg-blue-50 text-gray-700">Batteries</a>
+                        <a href="#" class="block px-4 py-2 hover:bg-blue-50 text-gray-700">Best Combo</a>
+                        <a href="#" class="block px-4 py-2 hover:bg-blue-50 text-gray-700">Displays</a>
+                        <a href="#" class="block px-4 py-2 hover:bg-blue-50 text-gray-700">Drones</a>
+                        <a href="#" class="block px-4 py-2 hover:bg-blue-50 text-gray-700">Microcontrollers</a>
+                        <a href="#" class="block px-4 py-2 hover:bg-blue-50 text-gray-700">Motors</a>
+                        <a href="#" class="block px-4 py-2 hover:bg-blue-50 text-gray-700">Sensors</a>
+                    </div>
+                </div>
+
+                <div class="relative dropdown">
+                    <button class="font-medium hover:text-primary transition flex items-center">
+                        Projects <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                    </button>
+                    <div class="dropdown-menu absolute hidden bg-white shadow-lg border rounded-md mt-2 w-48 py-2">
+                        <a href="#" class="block px-4 py-2 hover:bg-blue-50 text-gray-700">AI & ML Projects</a>
+                        <a href="#" class="block px-4 py-2 hover:bg-blue-50 text-gray-700">Electronics Projects</a>
+                        <a href="#" class="block px-4 py-2 hover:bg-blue-50 text-gray-700">IoT Projects</a>
+                        <a href="#" class="block px-4 py-2 hover:bg-blue-50 text-gray-700">Projects Kit</a>
+                        <a href="#" class="block px-4 py-2 hover:bg-blue-50 text-gray-700">Robotic Projects</a>
+                        <a href="#" class="block px-4 py-2 hover:bg-blue-50 text-gray-700">Simple Projects</a>
+                    </div>
+                </div>
+
+                <a href="#" class="font-medium hover:text-primary transition">Track Order</a>
+            </nav>
+
+            <!-- Right Side: Icons -->
+            <div class="flex items-center space-x-5 text-gray-600">
+                <button class="hover:text-primary"><i class="fas fa-search text-xl"></i></button>
+                <button class="relative hover:text-primary">
+                    <i class="fas fa-shopping-cart text-xl"></i>
+                    <span class="absolute -top-2 -right-2 bg-red-500 text-white text-[10px] rounded-full w-4 h-4 flex items-center justify-center">0</span>
+                </button>
+                <button class="hover:text-primary"><i class="fas fa-user-circle text-xl"></i></button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Search Bar Section -->
+    <section class="bg-gray-100 py-4 shadow-inner">
+        <div class="container mx-auto px-4">
+            <div class="max-w-3xl mx-auto flex items-center bg-white border rounded-full px-5 py-2">
+                <i class="fas fa-search text-gray-400 mr-3"></i>
+                <label for="search-input" class="sr-only">Search products</label>
+                <input id="search-input" type="text" placeholder="Search ESP32, Arduino, Sensors, Motors..." class="w-full focus:outline-none text-gray-700">
+                <button class="bg-primary text-white px-6 py-1.5 rounded-full hover:bg-blue-700 transition">Search</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Hero Banner -->
+    <section class="hero-gradient text-white py-20">
+        <div class="container mx-auto px-4 text-center">
+            <h1 class="text-4xl md:text-6xl font-bold mb-4">India's Trusted Electronics & Project Store</h1>
+            <p class="text-lg md:text-xl text-blue-100 mb-10">Arduino • ESP32 • Sensors • Motors • IoT Kits • Robotics</p>
+            <div class="flex flex-col md:flex-row items-center justify-center gap-4">
+                <a href="#" class="bg-white text-primary px-8 py-3 rounded-md font-bold hover:bg-gray-100 transition w-full md:w-auto">SHOP COMPONENTS</a>
+                <a href="#" class="bg-transparent border-2 border-white text-white px-8 py-3 rounded-md font-bold hover:bg-white hover:text-primary transition w-full md:w-auto">EXPLORE PROJECTS</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Popular Categories -->
+    <section class="py-16 container mx-auto px-4">
+        <h2 class="text-3xl font-bold text-center mb-12">Popular Categories</h2>
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+            <div class="bg-white p-6 rounded-xl shadow-sm border hover:shadow-md transition text-center cursor-pointer group">
+                <div class="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-primary transition">
+                    <i class="fas fa-microchip text-2xl text-primary group-hover:text-white"></i>
+                </div>
+                <h3 class="font-semibold">Sensors</h3>
+            </div>
+            <div class="bg-white p-6 rounded-xl shadow-sm border hover:shadow-md transition text-center cursor-pointer group">
+                <div class="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-primary transition">
+                    <i class="fas fa-cogs text-2xl text-primary group-hover:text-white"></i>
+                </div>
+                <h3 class="font-semibold">Motors</h3>
+            </div>
+            <div class="bg-white p-6 rounded-xl shadow-sm border hover:shadow-md transition text-center cursor-pointer group">
+                <div class="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-primary transition">
+                    <i class="fas fa-tablet-alt text-2xl text-primary group-hover:text-white"></i>
+                </div>
+                <h3 class="font-semibold">Displays</h3>
+            </div>
+            <div class="bg-white p-6 rounded-xl shadow-sm border hover:shadow-md transition text-center cursor-pointer group">
+                <div class="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-primary transition">
+                    <i class="fas fa-battery-full text-2xl text-primary group-hover:text-white"></i>
+                </div>
+                <h3 class="font-semibold">Batteries</h3>
+            </div>
+            <div class="bg-white p-6 rounded-xl shadow-sm border hover:shadow-md transition text-center cursor-pointer group">
+                <div class="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-primary transition">
+                    <i class="fas fa-helicopter text-2xl text-primary group-hover:text-white"></i>
+                </div>
+                <h3 class="font-semibold">Drones</h3>
+            </div>
+            <div class="bg-white p-6 rounded-xl shadow-sm border hover:shadow-md transition text-center cursor-pointer group">
+                <div class="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-primary transition">
+                    <i class="fas fa-robot text-2xl text-primary group-hover:text-white"></i>
+                </div>
+                <h3 class="font-semibold">Robotics</h3>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Products -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-end mb-10">
+                <h2 class="text-3xl font-bold">Featured Products</h2>
+                <a href="#" class="text-primary font-semibold hover:underline">View All</a>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Product Card 1 -->
+                <div class="border rounded-lg overflow-hidden hover:shadow-lg transition flex flex-col group">
+                    <a href="product-detail.html" class="relative pt-[100%] bg-gray-50 overflow-hidden block">
+                        <img src="https://m.media-amazon.com/images/I/61N6AnZ6S6L._SL1000_.jpg" alt="ESP32 Development Board" class="absolute inset-0 w-full h-full object-contain p-4 group-hover:scale-110 transition duration-300">
+                        <span class="absolute top-2 left-2 bg-red-500 text-white text-[10px] font-bold px-2 py-1 rounded">HOT</span>
+                    </a>
+                    <div class="p-4 flex flex-col flex-grow">
+                        <span class="text-xs text-gray-500 uppercase tracking-wider mb-1">Microcontrollers</span>
+                        <a href="product-detail.html" class="font-semibold mb-2 line-clamp-2 hover:text-primary transition">ESP32 Development Board - WLAN + Bluetooth</a>
+                        <div class="flex items-center mb-3">
+                            <div class="text-yellow-400 text-sm">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <span class="text-xs text-gray-400 ml-2">(128)</span>
+                        </div>
+                        <div class="mt-auto">
+                            <div class="flex items-center gap-2 mb-4">
+                                <span class="text-xl font-bold text-primary">₹450</span>
+                                <span class="text-sm text-gray-400 line-through">₹599</span>
+                            </div>
+                            <button class="w-full bg-primary text-white py-2 rounded hover:bg-blue-700 transition font-medium">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product Card 2 -->
+                <div class="border rounded-lg overflow-hidden hover:shadow-lg transition flex flex-col group">
+                    <div class="relative pt-[100%] bg-gray-50 overflow-hidden">
+                        <img src="https://m.media-amazon.com/images/I/51-P9M2K6pL._SL1000_.jpg" alt="Arduino Uno" class="absolute inset-0 w-full h-full object-contain p-4 group-hover:scale-110 transition duration-300">
+                    </div>
+                    <div class="p-4 flex flex-col flex-grow">
+                        <span class="text-xs text-gray-500 uppercase tracking-wider mb-1">Microcontrollers</span>
+                        <h3 class="font-semibold mb-2 line-clamp-2">Arduino Uno R3 with USB Cable</h3>
+                        <div class="flex items-center mb-3">
+                            <div class="text-yellow-400 text-sm">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                            </div>
+                            <span class="text-xs text-gray-400 ml-2">(85)</span>
+                        </div>
+                        <div class="mt-auto">
+                            <div class="flex items-center gap-2 mb-4">
+                                <span class="text-xl font-bold text-primary">₹549</span>
+                                <span class="text-sm text-gray-400 line-through">₹799</span>
+                            </div>
+                            <button class="w-full bg-primary text-white py-2 rounded hover:bg-blue-700 transition font-medium">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product Card 3 -->
+                <div class="border rounded-lg overflow-hidden hover:shadow-lg transition flex flex-col group">
+                    <div class="relative pt-[100%] bg-gray-50 overflow-hidden">
+                        <img src="https://m.media-amazon.com/images/I/61u9N+q295L._SL1000_.jpg" alt="Ultrasonic Sensor" class="absolute inset-0 w-full h-full object-contain p-4 group-hover:scale-110 transition duration-300">
+                        <span class="absolute top-2 left-2 bg-green-500 text-white text-[10px] font-bold px-2 py-1 rounded">NEW</span>
+                    </div>
+                    <div class="p-4 flex flex-col flex-grow">
+                        <span class="text-xs text-gray-500 uppercase tracking-wider mb-1">Sensors</span>
+                        <h3 class="font-semibold mb-2 line-clamp-2">HC-SR04 Ultrasonic Distance Sensor Module</h3>
+                        <div class="flex items-center mb-3">
+                            <div class="text-yellow-400 text-sm">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="far fa-star"></i>
+                            </div>
+                            <span class="text-xs text-gray-400 ml-2">(62)</span>
+                        </div>
+                        <div class="mt-auto">
+                            <div class="flex items-center gap-2 mb-4">
+                                <span class="text-xl font-bold text-primary">₹85</span>
+                                <span class="text-sm text-gray-400 line-through">₹150</span>
+                            </div>
+                            <button class="w-full bg-primary text-white py-2 rounded hover:bg-blue-700 transition font-medium">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product Card 4 -->
+                <div class="border rounded-lg overflow-hidden hover:shadow-lg transition flex flex-col group">
+                    <div class="relative pt-[100%] bg-gray-50 overflow-hidden">
+                        <img src="https://m.media-amazon.com/images/I/61m1hD+X8AL._SL1000_.jpg" alt="L298N Motor Driver" class="absolute inset-0 w-full h-full object-contain p-4 group-hover:scale-110 transition duration-300">
+                    </div>
+                    <div class="p-4 flex flex-col flex-grow">
+                        <span class="text-xs text-gray-500 uppercase tracking-wider mb-1">Motors</span>
+                        <h3 class="font-semibold mb-2 line-clamp-2">L298N Dual H-Bridge Motor Driver Module</h3>
+                        <div class="flex items-center mb-3">
+                            <div class="text-yellow-400 text-sm">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <span class="text-xs text-gray-400 ml-2">(94)</span>
+                        </div>
+                        <div class="mt-auto">
+                            <div class="flex items-center gap-2 mb-4">
+                                <span class="text-xl font-bold text-primary">₹189</span>
+                                <span class="text-sm text-gray-400 line-through">₹299</span>
+                            </div>
+                            <button class="w-full bg-primary text-white py-2 rounded hover:bg-blue-700 transition font-medium">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Best Sellers -->
+    <section class="py-16 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold mb-10">Best Sellers</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Reusing product card structure for Best Sellers -->
+                <div class="bg-white border rounded-lg overflow-hidden hover:shadow-lg transition flex flex-col group">
+                    <div class="relative pt-[100%] overflow-hidden">
+                        <img src="https://m.media-amazon.com/images/I/71+D7I1hK4L._SL1500_.jpg" alt="Smart Home Kit" class="absolute inset-0 w-full h-full object-contain p-4 group-hover:scale-110 transition duration-300">
+                    </div>
+                    <div class="p-4 flex flex-col flex-grow">
+                        <span class="text-xs text-gray-500 uppercase tracking-wider mb-1">Project Kits</span>
+                        <h3 class="font-semibold mb-2 line-clamp-2">IoT Smart Home Automation Kit for Beginners</h3>
+                        <div class="mt-auto">
+                            <div class="flex items-center gap-2 mb-4">
+                                <span class="text-xl font-bold text-primary">₹2,499</span>
+                            </div>
+                            <button class="w-full bg-primary text-white py-2 rounded hover:bg-blue-700 transition font-medium">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- ... other best sellers ... -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose Us -->
+    <section class="py-16 bg-blue-50">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-12">Why Choose Us</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="text-center">
+                    <div class="text-primary text-4xl mb-4"><i class="fas fa-check-circle"></i></div>
+                    <h3 class="text-xl font-bold mb-2">High Quality Products</h3>
+                    <p class="text-gray-600">Only tested and verified products.</p>
+                </div>
+                <div class="text-center">
+                    <div class="text-primary text-4xl mb-4"><i class="fas fa-shipping-fast"></i></div>
+                    <h3 class="text-xl font-bold mb-2">Fast Shipping</h3>
+                    <p class="text-gray-600">Quick order dispatch.</p>
+                </div>
+                <div class="text-center">
+                    <div class="text-primary text-4xl mb-4"><i class="fas fa-tags"></i></div>
+                    <h3 class="text-xl font-bold mb-2">Affordable Prices</h3>
+                    <p class="text-gray-600">Competitive pricing.</p>
+                </div>
+                <div class="text-center">
+                    <div class="text-primary text-4xl mb-4"><i class="fas fa-headset"></i></div>
+                    <h3 class="text-xl font-bold mb-2">Technical Support</h3>
+                    <p class="text-gray-600">Customer assistance available.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white pt-16 pb-8">
+        <div class="container mx-auto px-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
+            <div>
+                <h4 class="text-2xl font-bold mb-2">PROJECT WALA</h4>
+                <p class="text-gray-400 mb-6 italic">Dream, Believe, Achieve</p>
+                <div class="flex space-x-4">
+                    <a href="#" class="text-gray-400 hover:text-white text-xl"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-white text-xl"><i class="fab fa-facebook"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-white text-xl"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+            <div>
+                <h4 class="text-lg font-bold mb-6">SHOP</h4>
+                <ul class="space-y-4 text-gray-400">
+                    <li><a href="#" class="hover:text-white">Home</a></li>
+                    <li><a href="#" class="hover:text-white">Projects</a></li>
+                    <li><a href="#" class="hover:text-white">Components</a></li>
+                    <li><a href="#" class="hover:text-white">Track Order</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-lg font-bold mb-6">SUPPORT</h4>
+                <ul class="space-y-4 text-gray-400">
+                    <li><a href="#" class="hover:text-white">WhatsApp Support</a></li>
+                    <li><a href="#" class="hover:text-white">Contact Us</a></li>
+                    <li><a href="#" class="hover:text-white">About Us</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-lg font-bold mb-6">LEGAL</h4>
+                <ul class="space-y-4 text-gray-400">
+                    <li><a href="#" class="hover:text-white">Terms & Conditions</a></li>
+                    <li><a href="#" class="hover:text-white">Privacy Policy</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="container mx-auto px-4 pt-8 border-t border-gray-800 text-center text-gray-500 text-sm">
+            <p>&copy; 2026 PROJECT WALA. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <!-- WhatsApp Floating Button -->
+    <a href="https://wa.me/919657060806" class="whatsapp-float" target="_blank">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+</body>
+</html>

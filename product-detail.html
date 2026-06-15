@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ESP32 Development Board | PROJECT WALA</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; background-color: #ffffff; }
+        .text-primary { color: #1e40af; }
+        .bg-primary { background-color: #1e40af; }
+        .sticky-header { position: sticky; top: 0; z-index: 50; background: white; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="sticky-header">
+        <div class="container mx-auto px-4 py-3 flex items-center justify-between">
+            <div class="flex flex-col">
+                <a href="index.html" class="text-2xl font-bold text-primary leading-tight">PROJECT WALA</a>
+                <span class="text-xs text-gray-500 italic">Dream, Believe, Achieve</span>
+            </div>
+            <nav class="hidden md:flex items-center space-x-8">
+                <a href="index.html" class="font-medium hover:text-primary transition">Home</a>
+                <a href="#" class="font-medium hover:text-primary transition">Components</a>
+                <a href="#" class="font-medium hover:text-primary transition">Projects</a>
+                <a href="track-order.html" class="font-medium hover:text-primary transition">Track Order</a>
+            </nav>
+            <div class="flex items-center space-x-5 text-gray-600">
+                <button><i class="fas fa-search text-xl"></i></button>
+                <a href="cart.html" class="relative hover:text-primary">
+                    <i class="fas fa-shopping-cart text-xl"></i>
+                    <span class="absolute -top-2 -right-2 bg-red-500 text-white text-[10px] rounded-full w-4 h-4 flex items-center justify-center">0</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="py-12">
+        <div class="container mx-auto px-4">
+            <!-- Breadcrumbs -->
+            <nav class="flex text-sm text-gray-500 mb-8" aria-label="Breadcrumb">
+                <ol class="flex items-center space-x-2">
+                    <li><a href="index.html" class="hover:text-primary">Home</a></li>
+                    <li><i class="fas fa-chevron-right text-[10px]"></i></li>
+                    <li><a href="#" class="hover:text-primary">Components</a></li>
+                    <li><i class="fas fa-chevron-right text-[10px]"></i></li>
+                    <li class="font-medium text-gray-900">Microcontrollers</li>
+                </ol>
+            </nav>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                <!-- Image Gallery -->
+                <div class="space-y-4">
+                    <div class="border rounded-xl p-4 bg-gray-50">
+                        <img src="https://m.media-amazon.com/images/I/61N6AnZ6S6L._SL1000_.jpg" alt="ESP32" class="w-full h-auto object-contain">
+                    </div>
+                    <div class="grid grid-cols-4 gap-4">
+                        <div class="border rounded-lg p-2 cursor-pointer hover:border-primary transition"><img src="https://m.media-amazon.com/images/I/61N6AnZ6S6L._SL1000_.jpg" alt="Thumb"></div>
+                        <div class="border rounded-lg p-2 cursor-pointer hover:border-primary transition"><img src="https://m.media-amazon.com/images/I/61N6AnZ6S6L._SL1000_.jpg" alt="Thumb"></div>
+                        <div class="border rounded-lg p-2 cursor-pointer hover:border-primary transition"><img src="https://m.media-amazon.com/images/I/61N6AnZ6S6L._SL1000_.jpg" alt="Thumb"></div>
+                        <div class="border rounded-lg p-2 cursor-pointer hover:border-primary transition"><img src="https://m.media-amazon.com/images/I/61N6AnZ6S6L._SL1000_.jpg" alt="Thumb"></div>
+                    </div>
+                </div>
+
+                <!-- Product Info -->
+                <div class="space-y-6">
+                    <h1 class="text-3xl font-bold text-gray-900">ESP32 Development Board - WLAN + Bluetooth (30 Pin)</h1>
+
+                    <div class="flex items-center gap-4">
+                        <div class="text-yellow-400">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <span class="text-sm text-gray-500 font-medium">128 Customer Reviews</span>
+                    </div>
+
+                    <div class="flex items-baseline gap-4">
+                        <span class="text-4xl font-bold text-primary">₹450</span>
+                        <span class="text-xl text-gray-400 line-through">₹599</span>
+                        <span class="bg-green-100 text-green-700 px-2 py-1 rounded text-sm font-bold">25% OFF</span>
+                    </div>
+
+                    <p class="text-gray-600 leading-relaxed">
+                        The ESP32 is a powerful, generic Wi-Fi+BT+BLE MCU module that targets a wide variety of applications, ranging from low-power sensor networks to the most demanding tasks, such as voice encoding, music streaming and MP3 decoding.
+                    </p>
+
+                    <div class="pt-6 border-t">
+                        <label for="quantity" class="block text-sm font-bold text-gray-700 mb-3">Quantity</label>
+                        <div class="flex items-center gap-6">
+                            <div class="flex items-center border rounded-lg overflow-hidden w-32">
+                                <button class="px-4 py-2 hover:bg-gray-100 border-r">-</button>
+                                <input id="quantity" type="text" value="1" class="w-full text-center font-bold focus:outline-none">
+                                <button class="px-4 py-2 hover:bg-gray-100 border-l">+</button>
+                            </div>
+                            <button class="flex-grow bg-primary text-white py-3 px-8 rounded-lg font-bold hover:bg-blue-700 transition flex items-center justify-center gap-3">
+                                <i class="fas fa-shopping-cart"></i> ADD TO CART
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4 text-sm py-6 border-y">
+                        <div>
+                            <span class="text-gray-500">Categories:</span>
+                            <span class="font-medium ml-1">Components, Microcontrollers</span>
+                        </div>
+                        <div>
+                            <span class="text-gray-500">Tags:</span>
+                            <span class="font-medium ml-1">Electronics, IoT, ESP32</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Technical Specifications -->
+            <div class="mt-16">
+                <h2 class="text-2xl font-bold mb-8">Technical Specifications</h2>
+                <div class="bg-gray-50 rounded-xl overflow-hidden border">
+                    <table class="w-full text-left">
+                        <tbody class="divide-y">
+                            <tr>
+                                <td class="px-6 py-4 font-bold text-gray-700 w-1/3">Processor</td>
+                                <td class="px-6 py-4 text-gray-600">Dual-core Xtensa® 32-bit LX6 MCU</td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 font-bold text-gray-700">Wi-Fi</td>
+                                <td class="px-6 py-4 text-gray-600">802.11 b/g/n (802.11n up to 150 Mbps)</td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 font-bold text-gray-700">Bluetooth</td>
+                                <td class="px-6 py-4 text-gray-600">v4.2 BR/EDR and BLE specification</td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 font-bold text-gray-700">SRAM</td>
+                                <td class="px-6 py-4 text-gray-600">520 KB</td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 font-bold text-gray-700">Operating Voltage</td>
+                                <td class="px-6 py-4 text-gray-600">2.2V to 3.6V</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-gray-900 text-white py-12 mt-12">
+        <div class="container mx-auto px-4 text-center">
+            <p class="text-gray-500">&copy; 2026 PROJECT WALA. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <a href="https://wa.me/919657060806" class="fixed bottom-8 right-8 bg-[#25d366] text-white w-14 h-14 rounded-full flex items-center justify-center text-2xl shadow-lg z-50">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+</body>
+</html>
