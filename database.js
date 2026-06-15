@@ -15,6 +15,18 @@ const Database = {
         }
     },
 
+    // Real-time listener for products (See changes instantly)
+    observeProducts(callback) {
+        if (USE_FIREBASE && db) {
+            return db.collection('products').onSnapshot(snapshot => {
+                const products = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                callback(products);
+            });
+        } else {
+            callback(JSON.parse(localStorage.getItem('pw_products')) || this.getInitialMockProducts());
+        }
+    },
+
     async addProduct(product) {
         if (USE_FIREBASE && db) {
             return await db.collection('products').add(product);

@@ -111,7 +111,7 @@
                                 <span>₹1,118</span>
                             </div>
                         </div>
-                        <button class="w-full bg-white text-primary py-4 rounded-lg font-bold text-xl hover:bg-gray-100 transition">PLACE ORDER NOW</button>
+                        <button id="place-order-btn" class="w-full bg-white text-primary py-4 rounded-lg font-bold text-xl hover:bg-gray-100 transition">PLACE ORDER NOW</button>
                     </div>
                 </div>
             </div>
@@ -123,6 +123,41 @@
             <p>&copy; 2026 PROJECT WALA. All Rights Reserved.</p>
         </div>
     </footer>
+
+    <!-- Database Scripts -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
+    <script src="firebase-config.js"></script>
+    <script src="database.js"></script>
+
+    <script>
+        document.getElementById('place-order-btn').onclick = async () => {
+            const name = document.getElementById('full-name').value;
+            const email = document.getElementById('email-address').value;
+            const mobile = document.getElementById('mobile-number').value;
+
+            if (!name || !email) {
+                alert('Please fill in your details');
+                return;
+            }
+
+            const orderData = {
+                customerName: name,
+                customerEmail: email,
+                customerMobile: mobile,
+                total: 1118, // In a real app, calculate this from cart
+                items: JSON.parse(localStorage.getItem('pw_cart')) || []
+            };
+
+            const orderId = await Database.placeOrder(orderData);
+
+            // Clear cart
+            localStorage.setItem('pw_cart', JSON.stringify([]));
+
+            alert('Order placed successfully! Your Order ID is: ' + orderId);
+            window.location.href = 'track-order.html?id=' + orderId;
+        };
+    </script>
 
 </body>
 </html>

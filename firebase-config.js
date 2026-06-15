@@ -1,26 +1,31 @@
-// Firebase Configuration for PROJECT WALA
-// To use this, create a project at https://console.firebase.google.com/
-// Then copy your web app's config here.
+/**
+ * PROJECT WALA - Firebase Configuration
+ * CONNECTED TO GOOGLE CLOUD CONSOLE
+ */
 
 const firebaseConfig = {
-    apiKey: "YOUR_API_KEY",
-    authDomain: "your-project.firebaseapp.com",
-    projectId: "your-project",
-    storageBucket: "your-project.appspot.com",
-    messagingSenderId: "your-sender-id",
-    appId: "your-app-id"
+    apiKey: "AIzaSyDU12lWas9YK-_MrwN1AePN0vUPCZawhLs",
+    authDomain: "project-wala-92d4c.firebaseapp.com",
+    projectId: "project-wala-92d4c",
+    storageBucket: "project-wala-92d4c.firebasestorage.app",
+    messagingSenderId: "991130415999",
+    appId: "1:991130415999:web:cda18359a1a7ea14fbe04a",
+    measurementId: "G-EHP4P8RBV4"
 };
 
-// We will use a flag to switch between Firebase and LocalStorage for development
-const USE_FIREBASE = false; // Set to true once you've added your config above
+// Toggle to TRUE to use the Google Firebase Database
+const USE_FIREBASE = true;
 
-// Initialize Firebase (only if USE_FIREBASE is true)
 let db;
 if (USE_FIREBASE) {
-    // These scripts should be included in your HTML files:
-    // <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
-    // <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
-
-    firebase.initializeApp(firebaseConfig);
-    db = firebase.firestore();
+    try {
+        // Initializing using the compat layer for easy HTML integration
+        firebase.initializeApp(firebaseConfig);
+        db = firebase.firestore();
+        console.log("✅ Project Wala is now connected to Google Firebase Console!");
+    } catch (error) {
+        console.error("❌ Firebase Initialization Error:", error);
+    }
+} else {
+    console.log("Using LocalStorage Database (Offline Mode)");
 }

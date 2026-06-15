@@ -105,7 +105,7 @@
                 <button class="hover:text-primary"><i class="fas fa-search text-xl"></i></button>
                 <button class="relative hover:text-primary">
                     <i class="fas fa-shopping-cart text-xl"></i>
-                    <span class="absolute -top-2 -right-2 bg-red-500 text-white text-[10px] rounded-full w-4 h-4 flex items-center justify-center">0</span>
+                    <span id="cart-badge" class="absolute -top-2 -right-2 bg-red-500 text-white text-[10px] rounded-full w-4 h-4 flex items-center justify-center">0</span>
                 </button>
                 <button class="hover:text-primary"><i class="fas fa-user-circle text-xl"></i></button>
             </div>
@@ -186,120 +186,8 @@
                 <h2 class="text-3xl font-bold">Featured Products</h2>
                 <a href="#" class="text-primary font-semibold hover:underline">View All</a>
             </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                <!-- Product Card 1 -->
-                <div class="border rounded-lg overflow-hidden hover:shadow-lg transition flex flex-col group">
-                    <a href="product-detail.html" class="relative pt-[100%] bg-gray-50 overflow-hidden block">
-                        <img src="https://m.media-amazon.com/images/I/61N6AnZ6S6L._SL1000_.jpg" alt="ESP32 Development Board" class="absolute inset-0 w-full h-full object-contain p-4 group-hover:scale-110 transition duration-300">
-                        <span class="absolute top-2 left-2 bg-red-500 text-white text-[10px] font-bold px-2 py-1 rounded">HOT</span>
-                    </a>
-                    <div class="p-4 flex flex-col flex-grow">
-                        <span class="text-xs text-gray-500 uppercase tracking-wider mb-1">Microcontrollers</span>
-                        <a href="product-detail.html" class="font-semibold mb-2 line-clamp-2 hover:text-primary transition">ESP32 Development Board - WLAN + Bluetooth</a>
-                        <div class="flex items-center mb-3">
-                            <div class="text-yellow-400 text-sm">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                            </div>
-                            <span class="text-xs text-gray-400 ml-2">(128)</span>
-                        </div>
-                        <div class="mt-auto">
-                            <div class="flex items-center gap-2 mb-4">
-                                <span class="text-xl font-bold text-primary">₹450</span>
-                                <span class="text-sm text-gray-400 line-through">₹599</span>
-                            </div>
-                            <button class="w-full bg-primary text-white py-2 rounded hover:bg-blue-700 transition font-medium">Add to Cart</button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Product Card 2 -->
-                <div class="border rounded-lg overflow-hidden hover:shadow-lg transition flex flex-col group">
-                    <div class="relative pt-[100%] bg-gray-50 overflow-hidden">
-                        <img src="https://m.media-amazon.com/images/I/51-P9M2K6pL._SL1000_.jpg" alt="Arduino Uno" class="absolute inset-0 w-full h-full object-contain p-4 group-hover:scale-110 transition duration-300">
-                    </div>
-                    <div class="p-4 flex flex-col flex-grow">
-                        <span class="text-xs text-gray-500 uppercase tracking-wider mb-1">Microcontrollers</span>
-                        <h3 class="font-semibold mb-2 line-clamp-2">Arduino Uno R3 with USB Cable</h3>
-                        <div class="flex items-center mb-3">
-                            <div class="text-yellow-400 text-sm">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star-half-alt"></i>
-                            </div>
-                            <span class="text-xs text-gray-400 ml-2">(85)</span>
-                        </div>
-                        <div class="mt-auto">
-                            <div class="flex items-center gap-2 mb-4">
-                                <span class="text-xl font-bold text-primary">₹549</span>
-                                <span class="text-sm text-gray-400 line-through">₹799</span>
-                            </div>
-                            <button class="w-full bg-primary text-white py-2 rounded hover:bg-blue-700 transition font-medium">Add to Cart</button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Product Card 3 -->
-                <div class="border rounded-lg overflow-hidden hover:shadow-lg transition flex flex-col group">
-                    <div class="relative pt-[100%] bg-gray-50 overflow-hidden">
-                        <img src="https://m.media-amazon.com/images/I/61u9N+q295L._SL1000_.jpg" alt="Ultrasonic Sensor" class="absolute inset-0 w-full h-full object-contain p-4 group-hover:scale-110 transition duration-300">
-                        <span class="absolute top-2 left-2 bg-green-500 text-white text-[10px] font-bold px-2 py-1 rounded">NEW</span>
-                    </div>
-                    <div class="p-4 flex flex-col flex-grow">
-                        <span class="text-xs text-gray-500 uppercase tracking-wider mb-1">Sensors</span>
-                        <h3 class="font-semibold mb-2 line-clamp-2">HC-SR04 Ultrasonic Distance Sensor Module</h3>
-                        <div class="flex items-center mb-3">
-                            <div class="text-yellow-400 text-sm">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="far fa-star"></i>
-                            </div>
-                            <span class="text-xs text-gray-400 ml-2">(62)</span>
-                        </div>
-                        <div class="mt-auto">
-                            <div class="flex items-center gap-2 mb-4">
-                                <span class="text-xl font-bold text-primary">₹85</span>
-                                <span class="text-sm text-gray-400 line-through">₹150</span>
-                            </div>
-                            <button class="w-full bg-primary text-white py-2 rounded hover:bg-blue-700 transition font-medium">Add to Cart</button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Product Card 4 -->
-                <div class="border rounded-lg overflow-hidden hover:shadow-lg transition flex flex-col group">
-                    <div class="relative pt-[100%] bg-gray-50 overflow-hidden">
-                        <img src="https://m.media-amazon.com/images/I/61m1hD+X8AL._SL1000_.jpg" alt="L298N Motor Driver" class="absolute inset-0 w-full h-full object-contain p-4 group-hover:scale-110 transition duration-300">
-                    </div>
-                    <div class="p-4 flex flex-col flex-grow">
-                        <span class="text-xs text-gray-500 uppercase tracking-wider mb-1">Motors</span>
-                        <h3 class="font-semibold mb-2 line-clamp-2">L298N Dual H-Bridge Motor Driver Module</h3>
-                        <div class="flex items-center mb-3">
-                            <div class="text-yellow-400 text-sm">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                            </div>
-                            <span class="text-xs text-gray-400 ml-2">(94)</span>
-                        </div>
-                        <div class="mt-auto">
-                            <div class="flex items-center gap-2 mb-4">
-                                <span class="text-xl font-bold text-primary">₹189</span>
-                                <span class="text-sm text-gray-400 line-through">₹299</span>
-                            </div>
-                            <button class="w-full bg-primary text-white py-2 rounded hover:bg-blue-700 transition font-medium">Add to Cart</button>
-                        </div>
-                    </div>
-                </div>
+            <div id="featured-products-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Products will be loaded here dynamically -->
             </div>
         </div>
     </section>
@@ -401,10 +289,78 @@
         </div>
     </footer>
 
-    <!-- WhatsApp Floating Button -->
-    <a href="https://wa.me/919657060806" class="whatsapp-float" target="_blank">
-        <i class="fab fa-whatsapp"></i>
-    </a>
+    <!-- Firebase & Database Scripts -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
+    <script src="firebase-config.js"></script>
+    <script src="database.js"></script>
+
+    <script>
+        // Real-time synchronization for all customers
+        function initApp() {
+            // Watch for product changes in real-time
+            Database.observeProducts((products) => {
+                renderProducts(products);
+            });
+            updateCartBadge();
+        }
+
+        function renderProducts(products) {
+            const container = document.getElementById('featured-products-container');
+            if (!container) return;
+
+            if (products.length === 0) {
+                container.innerHTML = `
+                    <div class="col-span-full text-center py-20 bg-gray-50 rounded-xl border-2 border-dashed">
+                        <i class="fas fa-box-open text-4xl text-gray-300 mb-4"></i>
+                        <p class="text-gray-500 font-medium">Coming Soon! We are adding new products.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = products.map(product => `
+                <div class="border rounded-lg overflow-hidden hover:shadow-lg transition flex flex-col group animate-fade-in">
+                    <a href="product-detail.html?id=${product.id}" class="relative pt-[100%] bg-gray-50 overflow-hidden block">
+                        <img src="${product.image}" alt="${product.name}" class="absolute inset-0 w-full h-full object-contain p-4 group-hover:scale-110 transition duration-300">
+                        ${product.originalPrice ? `<span class="absolute top-2 left-2 bg-red-500 text-white text-[10px] font-bold px-2 py-1 rounded">SALE</span>` : ''}
+                    </a>
+                    <div class="p-4 flex flex-col flex-grow">
+                        <span class="text-xs text-gray-500 uppercase tracking-wider mb-1">${product.category}</span>
+                        <a href="product-detail.html?id=${product.id}" class="font-semibold mb-2 line-clamp-2 hover:text-primary transition">${product.name}</a>
+                        <div class="mt-auto">
+                            <div class="flex items-center gap-2 mb-4">
+                                <span class="text-xl font-bold text-primary">₹${product.price}</span>
+                                ${product.originalPrice ? `<span class="text-sm text-gray-400 line-through">₹${product.originalPrice}</span>` : ''}
+                            </div>
+                            <button onclick="addToCart('${product.id}')" class="w-full bg-primary text-white py-2 rounded hover:bg-blue-700 transition font-medium">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function addToCart(productId) {
+            let cart = JSON.parse(localStorage.getItem('pw_cart')) || [];
+            cart.push(productId);
+            localStorage.setItem('pw_cart', JSON.stringify(cart));
+            updateCartBadge();
+
+            // Show toast notification
+            const toast = document.createElement('div');
+            toast.className = 'fixed bottom-24 left-1/2 -translate-x-1/2 bg-gray-900 text-white px-6 py-3 rounded-full shadow-2xl z-[100] flex items-center gap-3 animate-bounce';
+            toast.innerHTML = `<i class="fas fa-shopping-cart text-green-400"></i> Added to your cart! <a href="cart.html" class="text-blue-400 font-bold underline ml-2">View Cart</a>`;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 4000);
+        }
+
+        function updateCartBadge() {
+            let cart = JSON.parse(localStorage.getItem('pw_cart')) || [];
+            document.getElementById('cart-badge').innerText = cart.length;
+        }
+
+        window.onload = initApp;
+    </script>
 
 </body>
 </html>
