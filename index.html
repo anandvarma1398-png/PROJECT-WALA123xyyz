@@ -11,9 +11,6 @@
         body {
             font-family: 'Inter', sans-serif;
             background-color: #f8fafc;
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
         }
         .bg-primary { background-color: #1e40af; } /* Professional Blue */
         .text-primary { color: #1e40af; }
@@ -53,377 +50,244 @@
             justify-content: center;
             text-decoration: none;
         }
-
-        /* SPLASH SCREEN STYLES */
-        #splash {
-            position: fixed;
-            inset: 0;
-            z-index: 999999;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-            background: radial-gradient(circle at top, #0d6efd 0%, #001845 40%, #000814 100%);
-        }
-
-        .circle {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(100px);
-            opacity: .5;
-        }
-
-        .circle1 {
-            width: 350px;
-            height: 350px;
-            background: #0d6efd;
-            top: -80px;
-            left: -80px;
-            animation: floatCircle 6s infinite ease-in-out;
-        }
-
-        .circle2 {
-            width: 300px;
-            height: 300px;
-            background: #00c3ff;
-            bottom: -80px;
-            right: -80px;
-            animation: floatCircle 8s infinite ease-in-out;
-        }
-
-        @keyframes floatCircle {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-40px); }
-        }
-
-        .splash-box {
-            width: 90%;
-            max-width: 700px;
-            padding: 50px;
-            border-radius: 30px;
-            background: rgba(255,255,255,.08);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255,255,255,.15);
-            text-align: center;
-            position: relative;
-        }
-
-        .splash-logo {
-            font-size: clamp(30px, 8vw, 70px);
-            font-weight: 900;
-            color: white;
-            letter-spacing: 4px;
-            animation: showLogo 1.5s ease;
-        }
-
-        .splash-tagline {
-            color: #dbeafe;
-            margin-top: 10px;
-            font-size: clamp(14px, 3vw, 20px);
-            letter-spacing: 2px;
-            animation: showLogo 2s ease;
-        }
-
-        @keyframes showLogo {
-            from { opacity: 0; transform: translateY(40px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .loading-text {
-            color: white;
-            margin-top: 40px;
-            margin-bottom: 15px;
-            font-size: 14px;
-            letter-spacing: 3px;
-        }
-
-        .progress {
-            width: 100%;
-            height: 8px;
-            background: rgba(255,255,255,.15);
-            border-radius: 50px;
-            overflow: hidden;
-        }
-
-        .progress-bar {
-            width: 0%;
-            height: 100%;
-            background: white;
-            border-radius: 50px;
-            animation: loadingBar 4s linear forwards;
-        }
-
-        @keyframes loadingBar {
-            from { width: 0%; }
-            to { width: 100%; }
-        }
-
-        .version {
-            color: #93c5fd;
-            margin-top: 20px;
-            font-size: 13px;
-        }
     </style>
 </head>
 <body>
 
-    <!-- Splash Screen -->
-    <div id="splash">
-        <div class="circle circle1"></div>
-        <div class="circle circle2"></div>
-        <div class="splash-box">
-            <h1 class="splash-logo">PROJECT WALA</h1>
-            <p class="splash-tagline">Dream, Believe, Achieve</p>
-            <div class="loading-text">LOADING EXPERIENCE...</div>
-            <div class="progress">
-                <div class="progress-bar"></div>
+    <!-- Header Section -->
+    <header class="sticky-header">
+        <div class="container mx-auto px-4 py-3 flex items-center justify-between">
+            <!-- Left Side: Logo & Tagline -->
+            <div class="flex flex-col">
+                <span class="text-2xl font-bold text-primary leading-tight">PROJECT WALA</span>
+                <span class="text-xs text-gray-500 italic">Dream, Believe, Achieve</span>
             </div>
-            <div class="version">Electronics • Robotics • IoT • DIY Projects</div>
-        </div>
-    </div>
 
-    <!-- Main Website Content -->
-    <div id="website" style="display:none;">
-        <!-- Header Section -->
-        <header class="sticky-header">
-            <div class="container mx-auto px-4 py-3 flex items-center justify-between">
-                <!-- Left Side: Logo & Tagline (Secret Admin Access) -->
-                <a href="login.html" class="flex flex-col group">
-                    <span class="text-2xl font-bold text-primary leading-tight group-hover:text-blue-700 transition">PROJECT WALA</span>
-                    <span class="text-xs text-gray-500 italic">Dream, Believe, Achieve</span>
-                </a>
+            <!-- Center: Navigation Menu -->
+            <nav class="hidden md:flex items-center space-x-8">
+                <a href="#" class="font-medium hover:text-primary transition">Home</a>
 
-                <!-- Center: Navigation Menu -->
-                <nav class="hidden md:flex items-center space-x-8">
-                    <a href="#" class="font-medium hover:text-primary transition">Home</a>
-
-                    <div class="relative dropdown">
-                        <button class="font-medium hover:text-primary transition flex items-center">
-                            Components <i class="fas fa-chevron-down ml-1 text-xs"></i>
-                        </button>
-                        <div class="dropdown-menu absolute hidden bg-white shadow-lg border rounded-md mt-2 w-48 py-2">
-                            <a href="#" class="block px-4 py-2 hover:bg-blue-50 text-gray-700">Accelerometers</a>
-                            <a href="#" class="block px-4 py-2 hover:bg-blue-50 text-gray-700">Batteries</a>
-                            <a href="#" class="block px-4 py-2 hover:bg-blue-50 text-gray-700">Best Combo</a>
-                            <a href="#" class="block px-4 py-2 hover:bg-blue-50 text-gray-700">Displays</a>
-                            <a href="#" class="block px-4 py-2 hover:bg-blue-50 text-gray-700">Drones</a>
-                            <a href="#" class="block px-4 py-2 hover:bg-blue-50 text-gray-700">Microcontrollers</a>
-                            <a href="#" class="block px-4 py-2 hover:bg-blue-50 text-gray-700">Motors</a>
-                            <a href="#" class="block px-4 py-2 hover:bg-blue-50 text-gray-700">Sensors</a>
-                        </div>
-                    </div>
-
-                    <div class="relative dropdown">
-                        <button class="font-medium hover:text-primary transition flex items-center">
-                            Projects <i class="fas fa-chevron-down ml-1 text-xs"></i>
-                        </button>
-                        <div class="dropdown-menu absolute hidden bg-white shadow-lg border rounded-md mt-2 w-48 py-2">
-                            <a href="#" class="block px-4 py-2 hover:bg-blue-50 text-gray-700">AI & ML Projects</a>
-                            <a href="#" class="block px-4 py-2 hover:bg-blue-50 text-gray-700">Electronics Projects</a>
-                            <a href="#" class="block px-4 py-2 hover:bg-blue-50 text-gray-700">IoT Projects</a>
-                            <a href="#" class="block px-4 py-2 hover:bg-blue-50 text-gray-700">Projects Kit</a>
-                            <a href="#" class="block px-4 py-2 hover:bg-blue-50 text-gray-700">Robotic Projects</a>
-                            <a href="#" class="block px-4 py-2 hover:bg-blue-50 text-gray-700">Simple Projects</a>
-                        </div>
-                    </div>
-
-                    <a href="track-order.html" class="font-medium hover:text-primary transition">Track Order</a>
-                </nav>
-
-                <!-- Right Side: Icons -->
-                <div class="flex items-center space-x-5 text-gray-600">
-                    <button class="hover:text-primary"><i class="fas fa-search text-xl"></i></button>
-                    <button class="relative hover:text-primary">
-                        <i class="fas fa-shopping-cart text-xl"></i>
-                        <span id="cart-badge" class="absolute -top-2 -right-2 bg-red-500 text-white text-[10px] rounded-full w-4 h-4 flex items-center justify-center">0</span>
+                <div class="relative dropdown">
+                    <button class="font-medium hover:text-primary transition flex items-center">
+                        Components <i class="fas fa-chevron-down ml-1 text-xs"></i>
                     </button>
-                    <a href="login.html" class="hover:text-primary"><i class="fas fa-user-circle text-xl"></i></a>
+                    <div class="dropdown-menu absolute hidden bg-white shadow-lg border rounded-md mt-2 w-48 py-2">
+                        <a href="#" class="block px-4 py-2 hover:bg-blue-50 text-gray-700">Accelerometers</a>
+                        <a href="#" class="block px-4 py-2 hover:bg-blue-50 text-gray-700">Batteries</a>
+                        <a href="#" class="block px-4 py-2 hover:bg-blue-50 text-gray-700">Best Combo</a>
+                        <a href="#" class="block px-4 py-2 hover:bg-blue-50 text-gray-700">Displays</a>
+                        <a href="#" class="block px-4 py-2 hover:bg-blue-50 text-gray-700">Drones</a>
+                        <a href="#" class="block px-4 py-2 hover:bg-blue-50 text-gray-700">Microcontrollers</a>
+                        <a href="#" class="block px-4 py-2 hover:bg-blue-50 text-gray-700">Motors</a>
+                        <a href="#" class="block px-4 py-2 hover:bg-blue-50 text-gray-700">Sensors</a>
+                    </div>
                 </div>
-            </div>
-        </header>
 
-        <!-- Search Bar Section -->
-        <section class="bg-gray-100 py-4 shadow-inner">
-            <div class="container mx-auto px-4">
-                <div class="max-w-3xl mx-auto flex items-center bg-white border rounded-full px-5 py-2">
-                    <i class="fas fa-search text-gray-400 mr-3"></i>
-                    <label for="search-input" class="sr-only">Search products</label>
-                    <input id="search-input" type="text" placeholder="Search ESP32, Arduino, Sensors, Motors..." class="w-full focus:outline-none text-gray-700">
-                    <button class="bg-primary text-white px-6 py-1.5 rounded-full hover:bg-blue-700 transition">Search</button>
+                <div class="relative dropdown">
+                    <button class="font-medium hover:text-primary transition flex items-center">
+                        Projects <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                    </button>
+                    <div class="dropdown-menu absolute hidden bg-white shadow-lg border rounded-md mt-2 w-48 py-2">
+                        <a href="#" class="block px-4 py-2 hover:bg-blue-50 text-gray-700">AI & ML Projects</a>
+                        <a href="#" class="block px-4 py-2 hover:bg-blue-50 text-gray-700">Electronics Projects</a>
+                        <a href="#" class="block px-4 py-2 hover:bg-blue-50 text-gray-700">IoT Projects</a>
+                        <a href="#" class="block px-4 py-2 hover:bg-blue-50 text-gray-700">Projects Kit</a>
+                        <a href="#" class="block px-4 py-2 hover:bg-blue-50 text-gray-700">Robotic Projects</a>
+                        <a href="#" class="block px-4 py-2 hover:bg-blue-50 text-gray-700">Simple Projects</a>
+                    </div>
                 </div>
-            </div>
-        </section>
 
-        <!-- Hero Banner -->
-        <section class="hero-gradient text-white py-20">
-            <div class="container mx-auto px-4 text-center">
-                <h1 class="text-4xl md:text-6xl font-bold mb-4">India's Trusted Electronics & Project Store</h1>
-                <p class="text-lg md:text-xl text-blue-100 mb-10">Arduino • ESP32 • Sensors • Motors • IoT Kits • Robotics</p>
-                <div class="flex flex-col md:flex-row items-center justify-center gap-4">
-                    <a href="#" class="bg-white text-primary px-8 py-3 rounded-md font-bold hover:bg-gray-100 transition w-full md:w-auto">SHOP COMPONENTS</a>
-                    <a href="#" class="bg-transparent border-2 border-white text-white px-8 py-3 rounded-md font-bold hover:bg-white hover:text-primary transition w-full md:w-auto">EXPLORE PROJECTS</a>
-                </div>
-            </div>
-        </section>
+                <a href="#" class="font-medium hover:text-primary transition">Track Order</a>
+            </nav>
 
-        <!-- Popular Categories -->
-        <section class="py-16 container mx-auto px-4">
-            <h2 class="text-3xl font-bold text-center mb-12">Popular Categories</h2>
-            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
-                <div class="bg-white p-6 rounded-xl shadow-sm border hover:shadow-md transition text-center cursor-pointer group">
-                    <div class="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-primary transition">
-                        <i class="fas fa-microchip text-2xl text-primary group-hover:text-white"></i>
-                    </div>
-                    <h3 class="font-semibold">Sensors</h3>
-                </div>
-                <div class="bg-white p-6 rounded-xl shadow-sm border hover:shadow-md transition text-center cursor-pointer group">
-                    <div class="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-primary transition">
-                        <i class="fas fa-cogs text-2xl text-primary group-hover:text-white"></i>
-                    </div>
-                    <h3 class="font-semibold">Motors</h3>
-                </div>
-                <div class="bg-white p-6 rounded-xl shadow-sm border hover:shadow-md transition text-center cursor-pointer group">
-                    <div class="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-primary transition">
-                        <i class="fas fa-tablet-alt text-2xl text-primary group-hover:text-white"></i>
-                    </div>
-                    <h3 class="font-semibold">Displays</h3>
-                </div>
-                <div class="bg-white p-6 rounded-xl shadow-sm border hover:shadow-md transition text-center cursor-pointer group">
-                    <div class="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-primary transition">
-                        <i class="fas fa-battery-full text-2xl text-primary group-hover:text-white"></i>
-                    </div>
-                    <h3 class="font-semibold">Batteries</h3>
-                </div>
-                <div class="bg-white p-6 rounded-xl shadow-sm border hover:shadow-md transition text-center cursor-pointer group">
-                    <div class="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-primary transition">
-                        <i class="fas fa-helicopter text-2xl text-primary group-hover:text-white"></i>
-                    </div>
-                    <h3 class="font-semibold">Drones</h3>
-                </div>
-                <div class="bg-white p-6 rounded-xl shadow-sm border hover:shadow-md transition text-center cursor-pointer group">
-                    <div class="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-primary transition">
-                        <i class="fas fa-robot text-2xl text-primary group-hover:text-white"></i>
-                    </div>
-                    <h3 class="font-semibold">Robotics</h3>
-                </div>
+            <!-- Right Side: Icons -->
+            <div class="flex items-center space-x-5 text-gray-600">
+                <button class="hover:text-primary"><i class="fas fa-search text-xl"></i></button>
+                <button class="relative hover:text-primary">
+                    <i class="fas fa-shopping-cart text-xl"></i>
+                    <span id="cart-badge" class="absolute -top-2 -right-2 bg-red-500 text-white text-[10px] rounded-full w-4 h-4 flex items-center justify-center">0</span>
+                </button>
+                <button class="hover:text-primary"><i class="fas fa-user-circle text-xl"></i></button>
             </div>
-        </section>
+        </div>
+    </header>
 
-        <!-- Featured Products -->
-        <section class="py-16 bg-white">
-            <div class="container mx-auto px-4">
-                <div class="flex justify-between items-end mb-10">
-                    <h2 class="text-3xl font-bold">Featured Products</h2>
-                    <a href="#" class="text-primary font-semibold hover:underline">View All</a>
-                </div>
-                <div id="featured-products-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                    <!-- Products will be loaded here dynamically -->
-                </div>
+    <!-- Search Bar Section -->
+    <section class="bg-gray-100 py-4 shadow-inner">
+        <div class="container mx-auto px-4">
+            <div class="max-w-3xl mx-auto flex items-center bg-white border rounded-full px-5 py-2">
+                <i class="fas fa-search text-gray-400 mr-3"></i>
+                <label for="search-input" class="sr-only">Search products</label>
+                <input id="search-input" type="text" placeholder="Search ESP32, Arduino, Sensors, Motors..." class="w-full focus:outline-none text-gray-700">
+                <button class="bg-primary text-white px-6 py-1.5 rounded-full hover:bg-blue-700 transition">Search</button>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- Best Sellers -->
-        <section class="py-16 bg-gray-50">
-            <div class="container mx-auto px-4">
-                <h2 class="text-3xl font-bold mb-10">Best Sellers</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                    <!-- Reusing product card structure for Best Sellers -->
-                    <div class="bg-white border rounded-lg overflow-hidden hover:shadow-lg transition flex flex-col group">
-                        <div class="relative pt-[100%] overflow-hidden">
-                            <img src="https://m.media-amazon.com/images/I/71+D7I1hK4L._SL1500_.jpg" alt="Smart Home Kit" class="absolute inset-0 w-full h-full object-contain p-4 group-hover:scale-110 transition duration-300">
-                        </div>
-                        <div class="p-4 flex flex-col flex-grow">
-                            <span class="text-xs text-gray-500 uppercase tracking-wider mb-1">Project Kits</span>
-                            <h3 class="font-semibold mb-2 line-clamp-2">IoT Smart Home Automation Kit for Beginners</h3>
-                            <div class="mt-auto">
-                                <div class="flex items-center gap-2 mb-4">
-                                    <span class="text-xl font-bold text-primary">₹2,499</span>
-                                </div>
-                                <button class="w-full bg-primary text-white py-2 rounded hover:bg-blue-700 transition font-medium">Add to Cart</button>
+    <!-- Hero Banner -->
+    <section class="hero-gradient text-white py-20">
+        <div class="container mx-auto px-4 text-center">
+            <h1 class="text-4xl md:text-6xl font-bold mb-4">India's Trusted Electronics & Project Store</h1>
+            <p class="text-lg md:text-xl text-blue-100 mb-10">Arduino • ESP32 • Sensors • Motors • IoT Kits • Robotics</p>
+            <div class="flex flex-col md:flex-row items-center justify-center gap-4">
+                <a href="#" class="bg-white text-primary px-8 py-3 rounded-md font-bold hover:bg-gray-100 transition w-full md:w-auto">SHOP COMPONENTS</a>
+                <a href="#" class="bg-transparent border-2 border-white text-white px-8 py-3 rounded-md font-bold hover:bg-white hover:text-primary transition w-full md:w-auto">EXPLORE PROJECTS</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Popular Categories -->
+    <section class="py-16 container mx-auto px-4">
+        <h2 class="text-3xl font-bold text-center mb-12">Popular Categories</h2>
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+            <div class="bg-white p-6 rounded-xl shadow-sm border hover:shadow-md transition text-center cursor-pointer group">
+                <div class="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-primary transition">
+                    <i class="fas fa-microchip text-2xl text-primary group-hover:text-white"></i>
+                </div>
+                <h3 class="font-semibold">Sensors</h3>
+            </div>
+            <div class="bg-white p-6 rounded-xl shadow-sm border hover:shadow-md transition text-center cursor-pointer group">
+                <div class="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-primary transition">
+                    <i class="fas fa-cogs text-2xl text-primary group-hover:text-white"></i>
+                </div>
+                <h3 class="font-semibold">Motors</h3>
+            </div>
+            <div class="bg-white p-6 rounded-xl shadow-sm border hover:shadow-md transition text-center cursor-pointer group">
+                <div class="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-primary transition">
+                    <i class="fas fa-tablet-alt text-2xl text-primary group-hover:text-white"></i>
+                </div>
+                <h3 class="font-semibold">Displays</h3>
+            </div>
+            <div class="bg-white p-6 rounded-xl shadow-sm border hover:shadow-md transition text-center cursor-pointer group">
+                <div class="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-primary transition">
+                    <i class="fas fa-battery-full text-2xl text-primary group-hover:text-white"></i>
+                </div>
+                <h3 class="font-semibold">Batteries</h3>
+            </div>
+            <div class="bg-white p-6 rounded-xl shadow-sm border hover:shadow-md transition text-center cursor-pointer group">
+                <div class="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-primary transition">
+                    <i class="fas fa-helicopter text-2xl text-primary group-hover:text-white"></i>
+                </div>
+                <h3 class="font-semibold">Drones</h3>
+            </div>
+            <div class="bg-white p-6 rounded-xl shadow-sm border hover:shadow-md transition text-center cursor-pointer group">
+                <div class="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-primary transition">
+                    <i class="fas fa-robot text-2xl text-primary group-hover:text-white"></i>
+                </div>
+                <h3 class="font-semibold">Robotics</h3>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Products -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-end mb-10">
+                <h2 class="text-3xl font-bold">Featured Products</h2>
+                <a href="#" class="text-primary font-semibold hover:underline">View All</a>
+            </div>
+            <div id="featured-products-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Products will be loaded here dynamically -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Best Sellers -->
+    <section class="py-16 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold mb-10">Best Sellers</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Reusing product card structure for Best Sellers -->
+                <div class="bg-white border rounded-lg overflow-hidden hover:shadow-lg transition flex flex-col group">
+                    <div class="relative pt-[100%] overflow-hidden">
+                        <img src="https://m.media-amazon.com/images/I/71+D7I1hK4L._SL1500_.jpg" alt="Smart Home Kit" class="absolute inset-0 w-full h-full object-contain p-4 group-hover:scale-110 transition duration-300">
+                    </div>
+                    <div class="p-4 flex flex-col flex-grow">
+                        <span class="text-xs text-gray-500 uppercase tracking-wider mb-1">Project Kits</span>
+                        <h3 class="font-semibold mb-2 line-clamp-2">IoT Smart Home Automation Kit for Beginners</h3>
+                        <div class="mt-auto">
+                            <div class="flex items-center gap-2 mb-4">
+                                <span class="text-xl font-bold text-primary">₹2,499</span>
                             </div>
+                            <button class="w-full bg-primary text-white py-2 rounded hover:bg-blue-700 transition font-medium">Add to Cart</button>
                         </div>
                     </div>
-                    <!-- ... other best sellers ... -->
                 </div>
+                <!-- ... other best sellers ... -->
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- Why Choose Us -->
-        <section class="py-16 bg-blue-50">
-            <div class="container mx-auto px-4">
-                <h2 class="text-3xl font-bold text-center mb-12">Why Choose Us</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                    <div class="text-center">
-                        <div class="text-primary text-4xl mb-4"><i class="fas fa-check-circle"></i></div>
-                        <h3 class="text-xl font-bold mb-2">High Quality Products</h3>
-                        <p class="text-gray-600">Only tested and verified products.</p>
-                    </div>
-                    <div class="text-center">
-                        <div class="text-primary text-4xl mb-4"><i class="fas fa-shipping-fast"></i></div>
-                        <h3 class="text-xl font-bold mb-2">Fast Shipping</h3>
-                        <p class="text-gray-600">Quick order dispatch.</p>
-                    </div>
-                    <div class="text-center">
-                        <div class="text-primary text-4xl mb-4"><i class="fas fa-tags"></i></div>
-                        <h3 class="text-xl font-bold mb-2">Affordable Prices</h3>
-                        <p class="text-gray-600">Competitive pricing.</p>
-                    </div>
-                    <div class="text-center">
-                        <div class="text-primary text-4xl mb-4"><i class="fas fa-headset"></i></div>
-                        <h3 class="text-xl font-bold mb-2">Technical Support</h3>
-                        <p class="text-gray-600">Customer assistance available.</p>
-                    </div>
+    <!-- Why Choose Us -->
+    <section class="py-16 bg-blue-50">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-12">Why Choose Us</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="text-center">
+                    <div class="text-primary text-4xl mb-4"><i class="fas fa-check-circle"></i></div>
+                    <h3 class="text-xl font-bold mb-2">High Quality Products</h3>
+                    <p class="text-gray-600">Only tested and verified products.</p>
+                </div>
+                <div class="text-center">
+                    <div class="text-primary text-4xl mb-4"><i class="fas fa-shipping-fast"></i></div>
+                    <h3 class="text-xl font-bold mb-2">Fast Shipping</h3>
+                    <p class="text-gray-600">Quick order dispatch.</p>
+                </div>
+                <div class="text-center">
+                    <div class="text-primary text-4xl mb-4"><i class="fas fa-tags"></i></div>
+                    <h3 class="text-xl font-bold mb-2">Affordable Prices</h3>
+                    <p class="text-gray-600">Competitive pricing.</p>
+                </div>
+                <div class="text-center">
+                    <div class="text-primary text-4xl mb-4"><i class="fas fa-headset"></i></div>
+                    <h3 class="text-xl font-bold mb-2">Technical Support</h3>
+                    <p class="text-gray-600">Customer assistance available.</p>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- Footer -->
-        <footer class="bg-gray-900 text-white pt-16 pb-8">
-            <div class="container mx-auto px-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
-                <div>
-                    <h4 class="text-2xl font-bold mb-2">PROJECT WALA</h4>
-                    <p class="text-gray-400 mb-6 italic">Dream, Believe, Achieve</p>
-                    <div class="flex space-x-4">
-                        <a href="#" class="text-gray-400 hover:text-white text-xl"><i class="fab fa-instagram"></i></a>
-                        <a href="#" class="text-gray-400 hover:text-white text-xl"><i class="fab fa-facebook"></i></a>
-                        <a href="#" class="text-gray-400 hover:text-white text-xl"><i class="fab fa-whatsapp"></i></a>
-                    </div>
-                </div>
-                <div>
-                    <h4 class="text-lg font-bold mb-6">SHOP</h4>
-                    <ul class="space-y-4 text-gray-400">
-                        <li><a href="#" class="hover:text-white">Home</a></li>
-                        <li><a href="#" class="hover:text-white">Projects</a></li>
-                        <li><a href="#" class="hover:text-white">Components</a></li>
-                        <li><a href="#" class="hover:text-white">Track Order</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="text-lg font-bold mb-6">SUPPORT</h4>
-                    <ul class="space-y-4 text-gray-400">
-                        <li><a href="#" class="hover:text-white">WhatsApp Support</a></li>
-                        <li><a href="#" class="hover:text-white">Contact Us</a></li>
-                        <li><a href="#" class="hover:text-white">About Us</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="text-lg font-bold mb-6">LEGAL</h4>
-                    <ul class="space-y-4 text-gray-400">
-                        <li><a href="#" class="hover:text-white">Terms & Conditions</a></li>
-                        <li><a href="#" class="hover:text-white">Privacy Policy</a></li>
-                    </ul>
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white pt-16 pb-8">
+        <div class="container mx-auto px-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
+            <div>
+                <h4 class="text-2xl font-bold mb-2">PROJECT WALA</h4>
+                <p class="text-gray-400 mb-6 italic">Dream, Believe, Achieve</p>
+                <div class="flex space-x-4">
+                    <a href="#" class="text-gray-400 hover:text-white text-xl"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-white text-xl"><i class="fab fa-facebook"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-white text-xl"><i class="fab fa-whatsapp"></i></a>
                 </div>
             </div>
-            <div class="container mx-auto px-4 pt-8 border-t border-gray-800 text-center text-gray-500 text-sm">
-                <p>&copy; 2026 PROJECT WALA. All Rights Reserved.</p>
+            <div>
+                <h4 class="text-lg font-bold mb-6">SHOP</h4>
+                <ul class="space-y-4 text-gray-400">
+                    <li><a href="#" class="hover:text-white">Home</a></li>
+                    <li><a href="#" class="hover:text-white">Projects</a></li>
+                    <li><a href="#" class="hover:text-white">Components</a></li>
+                    <li><a href="#" class="hover:text-white">Track Order</a></li>
+                </ul>
             </div>
-        </footer>
-
-        <!-- WhatsApp Floating Button -->
-        <a href="https://wa.me/919657060806" class="whatsapp-float" target="_blank">
-            <i class="fab fa-whatsapp"></i>
-        </a>
-    </div>
+            <div>
+                <h4 class="text-lg font-bold mb-6">SUPPORT</h4>
+                <ul class="space-y-4 text-gray-400">
+                    <li><a href="#" class="hover:text-white">WhatsApp Support</a></li>
+                    <li><a href="#" class="hover:text-white">Contact Us</a></li>
+                    <li><a href="#" class="hover:text-white">About Us</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-lg font-bold mb-6">LEGAL</h4>
+                <ul class="space-y-4 text-gray-400">
+                    <li><a href="#" class="hover:text-white">Terms & Conditions</a></li>
+                    <li><a href="#" class="hover:text-white">Privacy Policy</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="container mx-auto px-4 pt-8 border-t border-gray-800 text-center text-gray-500 text-sm">
+            <p>&copy; 2026 PROJECT WALA. All Rights Reserved.</p>
+        </div>
+    </footer>
 
     <!-- Firebase & Database Scripts -->
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
@@ -495,20 +359,7 @@
             document.getElementById('cart-badge').innerText = cart.length;
         }
 
-        // Handle Splash Screen and Init
-        window.onload = function() {
-            setTimeout(function() {
-                const splash = document.getElementById("splash");
-                splash.style.transition = "opacity 1s ease";
-                splash.style.opacity = "0";
-
-                setTimeout(function() {
-                    splash.style.display = "none";
-                    document.getElementById("website").style.display = "block";
-                    initApp(); // Initialize app data after splash
-                }, 1000);
-            }, 4000);
-        };
+        window.onload = initApp;
     </script>
 
 </body>
