@@ -135,16 +135,23 @@
             const name = document.getElementById('full-name').value;
             const email = document.getElementById('email-address').value;
             const mobile = document.getElementById('mobile-number').value;
+            const address = document.getElementById('address').value;
+            const city = document.getElementById('city').value;
+            const state = document.getElementById('state').value;
+            const pincode = document.getElementById('pincode').value;
 
-            if (!name || !email) {
-                alert('Please fill in your details');
+            if (!name || !email || !mobile || !address) {
+                alert('Please fill in all required fields (Name, Email, Mobile, Address)');
                 return;
             }
+
+            const fullAddress = `${address}, ${city}, ${state} - ${pincode}`;
 
             const orderData = {
                 customerName: name,
                 customerEmail: email,
                 customerMobile: mobile,
+                customerAddress: fullAddress,
                 total: 1118, // In a real app, calculate this from cart
                 items: JSON.parse(localStorage.getItem('pw_cart')) || []
             };

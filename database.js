@@ -28,6 +28,14 @@ const Database = {
     },
 
     async addProduct(product) {
+        // Handle Google Drive links
+        if (product.image.includes('drive.google.com')) {
+            const fileId = product.image.split('/d/')[1]?.split('/')[0];
+            if (fileId) {
+                product.image = `https://drive.google.com/uc?export=view&id=${fileId}`;
+            }
+        }
+
         if (USE_FIREBASE && db) {
             return await db.collection('products').add(product);
         } else {
@@ -39,6 +47,16 @@ const Database = {
         }
     },
 
+    async deleteProduct(id) {
+        if (USE_FIREBASE && db) {
+            await db.collection('products').doc(id).delete();
+        } else {
+            let products = await this.getProducts();
+            products = products.filter(p => p.id !== id);
+            localStorage.setItem('pw_products', JSON.stringify(products));
+        }
+    },
+
     // --- ORDERS ---
     async placeOrder(orderDetails) {
         const orderId = 'PW' + (1000 + (await this.getOrders()).length + 1);
@@ -46,6 +64,7 @@ const Database = {
             orderId,
             date: new Date().toISOString(),
             status: 'Pending',
+            deliveryDate: '', // Set when delivered
             ...orderDetails
         };
 
@@ -57,6 +76,24 @@ const Database = {
             localStorage.setItem('pw_orders', JSON.stringify(orders));
         }
         return orderId;
+    },
+
+    async updateOrderStatus(id, status) {
+        const updateData = { status };
+        if (status === 'Delivered') {
+            updateData.deliveryDate = new Date().toISOString();
+        }
+
+        if (USE_FIREBASE && db) {
+            await db.collection('orders').doc(id).update(updateData);
+        } else {
+            const orders = await this.getOrders();
+            const index = orders.findIndex(o => o.id === id || o.orderId === id);
+            if (index !== -1) {
+                orders[index] = { ...orders[index], ...updateData };
+                localStorage.setItem('pw_orders', JSON.stringify(orders));
+            }
+        }
     },
 
     async getOrders() {

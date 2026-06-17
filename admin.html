@@ -9,11 +9,16 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
         body { font-family: 'Inter', sans-serif; background-color: #f1f5f9; }
-        .sidebar { width: 260px; height: 100vh; position: fixed; left: 0; top: 0; background: #1e293b; color: white; }
-        .main-content { margin-left: 260px; padding: 2rem; }
+        .sidebar { width: 260px; height: 100vh; position: fixed; left: 0; top: 0; background: #1e293b; color: white; z-index: 100; }
+        .main-content { margin-left: 260px; padding: 2rem; min-height: 100vh; }
         .card { background: white; border-radius: 0.75rem; padding: 1.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
-        .nav-link { display: flex; align-items: center; padding: 0.75rem 1.5rem; color: #94a3b8; transition: all 0.2s; }
+        .nav-link { display: flex; align-items: center; padding: 0.75rem 1.5rem; color: #94a3b8; transition: all 0.2s; cursor: pointer; }
         .nav-link:hover, .nav-link.active { background: #334155; color: white; }
+        .status-pill { padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 700; }
+        .status-pending { background: #fef3c7; color: #92400e; }
+        .status-out { background: #dbeafe; color: #1e40af; }
+        .status-delivered { background: #d1fae5; color: #065f46; }
+        .hidden { display: none; }
     </style>
 </head>
 <body>
@@ -22,30 +27,24 @@
     <div class="sidebar">
         <div class="p-6">
             <h1 class="text-xl font-bold tracking-wider">PROJECT WALA</h1>
-            <p class="text-xs text-blue-400 font-medium">ADMIN PANEL</p>
+            <p class="text-xs text-blue-400 font-medium uppercase">Admin Panel</p>
         </div>
 
         <nav class="mt-4">
-            <a href="#" class="nav-link active"><i class="fas fa-chart-line mr-3 w-5"></i> Dashboard</a>
-            <a href="#" class="nav-link"><i class="fas fa-box mr-3 w-5"></i> Products</a>
-            <a href="#" class="nav-link"><i class="fas fa-shopping-bag mr-3 w-5"></i> Orders</a>
-            <a href="#" class="nav-link"><i class="fas fa-users mr-3 w-5"></i> Customers</a>
-            <a href="#" class="nav-link"><i class="fas fa-tags mr-3 w-5"></i> Categories</a>
+            <div onclick="showSection('dashboard')" id="nav-dashboard" class="nav-link active"><i class="fas fa-chart-line mr-3 w-5"></i> Dashboard</div>
+            <div onclick="showSection('products')" id="nav-products" class="nav-link"><i class="fas fa-box mr-3 w-5"></i> Products</div>
+            <div onclick="showSection('orders')" id="nav-orders" class="nav-link"><i class="fas fa-shopping-bag mr-3 w-5"></i> Orders</div>
+            <div onclick="showSection('customers')" id="nav-customers" class="nav-link"><i class="fas fa-users mr-3 w-5"></i> Customers</div>
             <div class="mt-8 px-6 text-xs font-bold text-gray-500 uppercase">System</div>
-            <a href="#" class="nav-link"><i class="fas fa-cog mr-3 w-5"></i> Settings</a>
-            <a href="#" onclick="logout()" class="nav-link"><i class="fas fa-sign-out-alt mr-3 w-5"></i> Logout</a>
+            <div onclick="logout()" class="nav-link"><i class="fas fa-sign-out-alt mr-3 w-5"></i> Logout</div>
         </nav>
     </div>
 
     <!-- Main Content -->
     <main class="main-content">
         <header class="flex justify-between items-center mb-8">
-            <h2 class="text-2xl font-bold text-gray-800">Dashboard Overview</h2>
+            <h2 id="section-title" class="text-2xl font-bold text-gray-800">Dashboard Overview</h2>
             <div class="flex items-center gap-4">
-                <button class="bg-white p-2 rounded-full border shadow-sm relative">
-                    <i class="fas fa-bell text-gray-600"></i>
-                    <span class="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full"></span>
-                </button>
                 <div class="flex items-center gap-3 bg-white p-1 pr-4 rounded-full border shadow-sm">
                     <img src="https://ui-avatars.com/api/?name=Admin+Varma&background=1e40af&color=fff" class="w-8 h-8 rounded-full" alt="Admin">
                     <span class="text-sm font-semibold">Admin Varma</span>
@@ -53,72 +52,137 @@
             </div>
         </header>
 
-        <!-- Stats Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-            <div class="card flex items-center justify-between">
-                <div>
-                    <p class="text-sm text-gray-500 font-medium mb-1">Total Products</p>
-                    <h3 id="stat-total-products" class="text-2xl font-bold">0</h3>
+        <!-- DASHBOARD SECTION -->
+        <div id="section-dashboard" class="admin-section">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <div class="card flex items-center justify-between border-l-4 border-yellow-400">
+                    <div>
+                        <p class="text-sm text-gray-500 font-medium mb-1">Pending Orders</p>
+                        <h3 id="dash-pending" class="text-2xl font-bold text-yellow-600">0</h3>
+                    </div>
+                    <div class="bg-yellow-100 p-3 rounded-lg text-yellow-600"><i class="fas fa-clock text-xl"></i></div>
                 </div>
-                <div class="bg-blue-100 p-3 rounded-lg text-blue-600"><i class="fas fa-box text-xl"></i></div>
-            </div>
-            <div class="card flex items-center justify-between">
-                <div>
-                    <p class="text-sm text-gray-500 font-medium mb-1">Total Orders</p>
-                    <h3 id="stat-total-orders" class="text-2xl font-bold">0</h3>
+                <div class="card flex items-center justify-between border-l-4 border-blue-400">
+                    <div>
+                        <p class="text-sm text-gray-500 font-medium mb-1">Out for Delivery</p>
+                        <h3 id="dash-out" class="text-2xl font-bold text-blue-600">0</h3>
+                    </div>
+                    <div class="bg-blue-100 p-3 rounded-lg text-blue-600"><i class="fas fa-truck text-xl"></i></div>
                 </div>
-                <div class="bg-green-100 p-3 rounded-lg text-green-600"><i class="fas fa-shopping-cart text-xl"></i></div>
+                <div class="card flex items-center justify-between border-l-4 border-green-400">
+                    <div>
+                        <p class="text-sm text-gray-500 font-medium mb-1">Delivered Orders</p>
+                        <h3 id="dash-delivered" class="text-2xl font-bold text-green-600">0</h3>
+                    </div>
+                    <div class="bg-green-100 p-3 rounded-lg text-green-600"><i class="fas fa-check-double text-xl"></i></div>
+                </div>
             </div>
-            <!-- ... -->
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div class="card">
+                    <h3 class="font-bold text-lg mb-4">Quick Add Product</h3>
+                    <form id="add-product-form" class="space-y-4">
+                        <input type="text" id="p-name" placeholder="Product Name" class="w-full p-2 border rounded" required>
+                        <input type="text" id="p-cat" placeholder="Category" class="w-full p-2 border rounded" required>
+                        <input type="number" id="p-price" placeholder="Price (₹)" class="w-full p-2 border rounded" required>
+                        <div class="flex gap-2">
+                            <input type="text" id="p-img" placeholder="Google Drive Link or URL" class="flex-grow p-2 border rounded" required>
+                            <div id="img-preview" class="w-10 h-10 border rounded bg-gray-50 flex items-center justify-center overflow-hidden">
+                                <i class="fas fa-image text-gray-300"></i>
+                            </div>
+                        </div>
+                        <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded font-bold hover:bg-blue-700">Add Product</button>
+                    </form>
+                </div>
+
+                <script>
+                    document.getElementById('p-img').oninput = function() {
+                        let url = this.value;
+                        if (url.includes('drive.google.com')) {
+                            const fileId = url.split('/d/')[1]?.split('/')[0];
+                            if (fileId) url = `https://drive.google.com/uc?export=view&id=${fileId}`;
+                        }
+                        const preview = document.getElementById('img-preview');
+                        if (url) {
+                            preview.innerHTML = `<img src="${url}" class="w-full h-full object-contain">`;
+                        } else {
+                            preview.innerHTML = `<i class="fas fa-image text-gray-300"></i>`;
+                        }
+                    };
+                </script>
+                <div class="card">
+                    <h3 class="font-bold text-lg mb-4">System Stats</h3>
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-center p-3 bg-gray-50 rounded">
+                            <span class="text-gray-600">Total Products</span>
+                            <span id="stat-products" class="font-bold">0</span>
+                        </div>
+                        <div class="flex justify-between items-center p-3 bg-gray-50 rounded">
+                            <span class="text-gray-600">Total Orders</span>
+                            <span id="stat-orders" class="font-bold">0</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <!-- Recent Orders -->
-            <div class="lg:col-span-2 card">
-                <div class="flex justify-between items-center mb-6">
-                    <h3 class="font-bold text-lg">Recent Orders</h3>
-                    <button class="text-blue-600 text-sm font-semibold hover:underline">View All</button>
-                </div>
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left">
-                        <thead>
-                            <tr class="text-gray-400 text-sm border-b">
-                                <th class="pb-3 font-medium">Order ID</th>
-                                <th class="pb-3 font-medium">Customer</th>
-                                <th class="pb-3 font-medium">Amount</th>
-                                <th class="pb-3 font-medium">Status</th>
-                                <th class="pb-3 font-medium">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody id="orders-table-body" class="text-sm">
-                            <!-- Orders will be loaded here -->
-                        </tbody>
-                    </table>
-                </div>
+        <!-- PRODUCTS SECTION -->
+        <div id="section-products" class="admin-section hidden">
+            <div class="card overflow-x-auto">
+                <table class="w-full text-left">
+                    <thead>
+                        <tr class="text-gray-400 text-sm border-b">
+                            <th class="pb-3 px-2">Image</th>
+                            <th class="pb-3 px-2">Name</th>
+                            <th class="pb-3 px-2">Category</th>
+                            <th class="pb-3 px-2">Price</th>
+                            <th class="pb-3 px-2">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="products-list" class="text-sm">
+                        <!-- Products loaded here -->
+                    </tbody>
+                </table>
             </div>
+        </div>
 
-            <!-- Add Product Form (Quick) -->
-            <div class="card">
-                <h3 class="font-bold text-lg mb-6">Add New Product</h3>
-                <form id="add-product-form" class="space-y-4">
-                    <div>
-                        <label for="p-name" class="sr-only">Product Name</label>
-                        <input type="text" id="p-name" placeholder="Product Name" class="w-full p-2 border rounded" required>
-                    </div>
-                    <div>
-                        <label for="p-cat" class="sr-only">Category</label>
-                        <input type="text" id="p-cat" placeholder="Category" class="w-full p-2 border rounded" required>
-                    </div>
-                    <div>
-                        <label for="p-price" class="sr-only">Price</label>
-                        <input type="number" id="p-price" placeholder="Price (₹)" class="w-full p-2 border rounded" required>
-                    </div>
-                    <div>
-                        <label for="p-img" class="sr-only">Image URL</label>
-                        <input type="text" id="p-img" placeholder="Image URL" class="w-full p-2 border rounded" required>
-                    </div>
-                    <button type="submit" class="w-full bg-primary text-white py-2 rounded font-bold">Add Product</button>
-                </form>
+        <!-- ORDERS SECTION -->
+        <div id="section-orders" class="admin-section hidden">
+            <div class="card overflow-x-auto">
+                <table class="w-full text-left">
+                    <thead>
+                        <tr class="text-gray-400 text-sm border-b">
+                            <th class="pb-3 px-2">Order ID</th>
+                            <th class="pb-3 px-2">Customer</th>
+                            <th class="pb-3 px-2">Amount</th>
+                            <th class="pb-3 px-2">Status</th>
+                            <th class="pb-3 px-2">Update Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="orders-list" class="text-sm">
+                        <!-- Orders loaded here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- CUSTOMERS SECTION -->
+        <div id="section-customers" class="admin-section hidden">
+            <div class="card overflow-x-auto">
+                <table class="w-full text-left">
+                    <thead>
+                        <tr class="text-gray-400 text-sm border-b">
+                            <th class="pb-3 px-2">Customer Info</th>
+                            <th class="pb-3 px-2">Order ID</th>
+                            <th class="pb-3 px-2">Products</th>
+                            <th class="pb-3 px-2">Dates</th>
+                            <th class="pb-3 px-2">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="customers-list" class="text-sm">
+                        <!-- Customers/Orders details loaded here -->
+                    </tbody>
+                </table>
             </div>
         </div>
     </main>
@@ -130,32 +194,120 @@
     <script src="database.js"></script>
 
     <script>
-        // Security Check: Redirect to login if not authenticated
+        // Security Check
         if (localStorage.getItem('pw_admin_logged_in') !== 'true') {
             window.location.href = 'login.html';
         }
 
-        async function refreshAdminData() {
+        function showSection(sectionId) {
+            document.querySelectorAll('.admin-section').forEach(s => s.classList.add('hidden'));
+            document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+
+            document.getElementById('section-' + sectionId).classList.remove('hidden');
+            document.getElementById('nav-' + sectionId).classList.add('active');
+
+            const titles = {
+                dashboard: 'Dashboard Overview',
+                products: 'Manage Products',
+                orders: 'Order Management',
+                customers: 'Customer Information'
+            };
+            document.getElementById('section-title').innerText = titles[sectionId];
+            refreshData();
+        }
+
+        async function refreshData() {
             const products = await Database.getProducts();
             const orders = await Database.getOrders();
 
-            document.getElementById('stat-total-products').innerText = products.length;
-            document.getElementById('stat-total-orders').innerText = orders.length;
+            // Dashboard Stats
+            const pending = orders.filter(o => o.status === 'Pending').length;
+            const outForDelivery = orders.filter(o => o.status === 'Out for Delivery').length;
+            const delivered = orders.filter(o => o.status === 'Delivered').length;
 
-            const ordersTable = document.getElementById('orders-table-body');
-            ordersTable.innerHTML = orders.map(order => `
-                <tr class="border-b last:border-0">
-                    <td class="py-4 font-semibold">${order.orderId}</td>
-                    <td class="py-4">${order.customerName}</td>
-                    <td class="py-4 font-bold">₹${order.total}</td>
-                    <td class="py-4"><span class="bg-blue-100 text-blue-700 px-2 py-1 rounded text-xs font-bold">${order.status}</span></td>
-                    <td class="py-4"><button class="text-blue-600 hover:text-blue-800"><i class="fas fa-eye"></i></button></td>
+            document.getElementById('dash-pending').innerText = pending;
+            document.getElementById('dash-out').innerText = outForDelivery;
+            document.getElementById('dash-delivered').innerText = delivered;
+            document.getElementById('stat-products').innerText = products.length;
+            document.getElementById('stat-orders').innerText = orders.length;
+
+            // Products List
+            const pList = document.getElementById('products-list');
+            pList.innerHTML = products.map(p => `
+                <tr class="border-b last:border-0 hover:bg-gray-50">
+                    <td class="py-4 px-2"><img src="${p.image}" class="w-10 h-10 object-contain border rounded"></td>
+                    <td class="py-4 px-2 font-semibold">${p.name}</td>
+                    <td class="py-4 px-2">${p.category}</td>
+                    <td class="py-4 px-2 font-bold">₹${p.price}</td>
+                    <td class="py-4 px-2">
+                        <button onclick="deleteProd('${p.id}')" class="text-red-500 hover:text-red-700"><i class="fas fa-trash"></i></button>
+                    </td>
                 </tr>
             `).join('');
 
-            if (orders.length === 0) {
-                ordersTable.innerHTML = '<tr><td colspan="5" class="py-8 text-center text-gray-400 italic">No orders found yet</td></tr>';
+            // Orders List
+            const oList = document.getElementById('orders-list');
+            oList.innerHTML = orders.map(o => `
+                <tr class="border-b last:border-0 hover:bg-gray-50">
+                    <td class="py-4 px-2 font-bold text-blue-600">${o.orderId}</td>
+                    <td class="py-4 px-2">${o.customerName}</td>
+                    <td class="py-4 px-2 font-bold">₹${o.total}</td>
+                    <td class="py-4 px-2">
+                        <span class="status-pill ${getStatusClass(o.status)}">${o.status}</span>
+                    </td>
+                    <td class="py-4 px-2">
+                        <select onchange="updateOrder('${o.id || o.orderId}', this.value)" class="p-1 border rounded text-xs">
+                            <option value="Pending" ${o.status === 'Pending' ? 'selected' : ''}>Pending</option>
+                            <option value="Out for Delivery" ${o.status === 'Out for Delivery' ? 'selected' : ''}>Out for Delivery</option>
+                            <option value="Delivered" ${o.status === 'Delivered' ? 'selected' : ''}>Delivered</option>
+                        </select>
+                    </td>
+                </tr>
+            `).join('');
+
+            // Customers List
+            const cList = document.getElementById('customers-list');
+            cList.innerHTML = orders.map(o => `
+                <tr class="border-b last:border-0 hover:bg-gray-50 text-xs">
+                    <td class="py-4 px-2">
+                        <div class="font-bold text-sm">${o.customerName}</div>
+                        <div class="text-gray-500">${o.customerMobile}</div>
+                        <div class="text-gray-400 mt-1">${o.customerAddress || 'N/A'}</div>
+                    </td>
+                    <td class="py-4 px-2 font-bold text-blue-600">${o.orderId}</td>
+                    <td class="py-4 px-2">
+                        <div class="max-w-[150px] truncate" title="${o.items ? o.items.join(', ') : 'None'}">
+                            ${o.items ? o.items.length + ' Product(s)' : 'None'}
+                        </div>
+                    </td>
+                    <td class="py-4 px-2">
+                        <div>Order: ${new Date(o.date).toLocaleDateString()}</div>
+                        <div class="text-green-600 font-bold mt-1">${o.deliveryDate ? 'Delivered: ' + new Date(o.deliveryDate).toLocaleDateString() : 'Not Delivered'}</div>
+                    </td>
+                    <td class="py-4 px-2">
+                        <span class="status-pill ${getStatusClass(o.status)}">${o.status}</span>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function getStatusClass(status) {
+            if (status === 'Pending') return 'status-pending';
+            if (status === 'Out for Delivery') return 'status-out';
+            if (status === 'Delivered') return 'status-delivered';
+            return '';
+        }
+
+        async function deleteProd(id) {
+            if (confirm('Are you sure you want to delete this product?')) {
+                await Database.deleteProduct(id);
+                refreshData();
             }
+        }
+
+        async function updateOrder(id, status) {
+            await Database.updateOrderStatus(id, status);
+            refreshData();
         }
 
         document.getElementById('add-product-form').onsubmit = async (e) => {
@@ -170,7 +322,7 @@
             await Database.addProduct(product);
             alert('Product added successfully!');
             e.target.reset();
-            refreshAdminData();
+            refreshData();
         };
 
         function logout() {
@@ -178,7 +330,7 @@
             window.location.href = 'login.html';
         }
 
-        window.onload = refreshAdminData;
+        window.onload = () => refreshData();
     </script>
 
 </body>
