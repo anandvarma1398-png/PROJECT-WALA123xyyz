@@ -326,17 +326,33 @@
 
         document.getElementById('add-product-form').onsubmit = async (e) => {
             e.preventDefault();
-            const product = {
-                name: document.getElementById('p-name').value,
-                category: document.getElementById('p-cat').value,
-                price: parseInt(document.getElementById('p-price').value),
-                image: document.getElementById('p-img').value,
-                description: 'Product added via admin'
-            };
-            await Database.addProduct(product);
-            alert('Product added successfully!');
-            e.target.reset();
-            refreshData();
+            const btn = e.target.querySelector('button');
+            const originalText = btn.innerText;
+
+            try {
+                btn.innerText = 'Adding...';
+                btn.disabled = true;
+
+                const product = {
+                    name: document.getElementById('p-name').value,
+                    category: document.getElementById('p-cat').value,
+                    price: parseInt(document.getElementById('p-price').value),
+                    image: document.getElementById('p-img').value,
+                    description: 'New product added via admin dashboard'
+                };
+
+                await Database.addProduct(product);
+                alert('Success! Product is now live in the store.');
+                e.target.reset();
+                document.getElementById('img-preview').innerHTML = '<i class="fas fa-image text-gray-300"></i>';
+                refreshData();
+            } catch (error) {
+                console.error("Submit Error:", error);
+                alert('Error: ' + error.message + '\n\nMake sure your Firestore Rules are set to "Test Mode" or allow public writes.');
+            } finally {
+                btn.innerText = originalText;
+                btn.disabled = false;
+            }
         };
 
         function logout() {

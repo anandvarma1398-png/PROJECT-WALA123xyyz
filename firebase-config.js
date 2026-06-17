@@ -1,6 +1,5 @@
 /**
  * PROJECT WALA - Firebase Configuration
- * CONNECTED TO GOOGLE CLOUD CONSOLE
  */
 
 const firebaseConfig = {
@@ -13,19 +12,17 @@ const firebaseConfig = {
     measurementId: "G-EHP4P8RBV4"
 };
 
-// Toggle to TRUE to use the Google Firebase Database
-const USE_FIREBASE = true;
+// GLOBAL SETTINGS
+window.USE_FIREBASE = true;
+window.db = null;
 
-let db;
-if (USE_FIREBASE) {
+if (window.USE_FIREBASE) {
     try {
-        // Initializing using the compat layer for easy HTML integration
         firebase.initializeApp(firebaseConfig);
-        db = firebase.firestore();
-        console.log("✅ Project Wala is now connected to Google Firebase Console!");
+        window.db = firebase.firestore();
+        console.log("✅ Firebase Connected Successfully");
     } catch (error) {
-        console.error("❌ Firebase Initialization Error:", error);
+        console.error("❌ Firebase Init Error:", error);
+        alert("Firebase failed to load. Check your internet or API keys.");
     }
-} else {
-    console.log("Using LocalStorage Database (Offline Mode)");
 }
