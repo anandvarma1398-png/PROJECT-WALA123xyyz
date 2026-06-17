@@ -31,7 +31,10 @@
             </nav>
             <div class="flex items-center space-x-5 text-gray-600">
                 <button><i class="fas fa-search text-xl"></i></button>
-                <a href="cart.html" class="relative text-primary"><i class="fas fa-shopping-cart text-xl"></i></a>
+                <a href="cart.html" class="relative text-primary">
+                    <i class="fas fa-shopping-cart text-xl"></i>
+                    <span id="cart-badge" class="absolute -top-2 -right-2 bg-red-500 text-white text-[10px] rounded-full w-4 h-4 flex items-center justify-center">0</span>
+                </a>
                 <button><i class="fas fa-user-circle text-xl"></i></button>
             </div>
         </div>
@@ -43,69 +46,16 @@
 
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
                 <!-- Cart Items -->
-                <div class="lg:col-span-2 space-y-6">
-                    <!-- Item 1 -->
-                    <div class="bg-white p-6 rounded-xl border flex gap-6 items-center shadow-sm">
-                        <img src="https://m.media-amazon.com/images/I/61N6AnZ6S6L._SL1000_.jpg" alt="Product" class="w-24 h-24 object-contain">
-                        <div class="flex-grow">
-                            <h3 class="font-bold text-lg mb-1">ESP32 Development Board</h3>
-                            <p class="text-gray-500 text-sm mb-4">Category: Microcontrollers</p>
-                            <div class="flex items-center gap-4">
-                                <div class="flex items-center border rounded">
-                                    <button class="px-3 py-1 hover:bg-gray-100">-</button>
-                                    <span class="px-4 py-1 border-x font-medium">1</span>
-                                    <button class="px-3 py-1 hover:bg-gray-100">+</button>
-                                </div>
-                                <button class="text-red-500 hover:text-red-700 text-sm font-medium"><i class="fas fa-trash-alt mr-1"></i> Remove</button>
-                            </div>
-                        </div>
-                        <div class="text-right">
-                            <p class="font-bold text-xl text-primary">₹450</p>
-                        </div>
-                    </div>
-
-                    <!-- Item 2 -->
-                    <div class="bg-white p-6 rounded-xl border flex gap-6 items-center shadow-sm">
-                        <img src="https://m.media-amazon.com/images/I/51-P9M2K6pL._SL1000_.jpg" alt="Product" class="w-24 h-24 object-contain">
-                        <div class="flex-grow">
-                            <h3 class="font-bold text-lg mb-1">Arduino Uno R3</h3>
-                            <p class="text-gray-500 text-sm mb-4">Category: Microcontrollers</p>
-                            <div class="flex items-center gap-4">
-                                <div class="flex items-center border rounded">
-                                    <button class="px-3 py-1 hover:bg-gray-100">-</button>
-                                    <span class="px-4 py-1 border-x font-medium">1</span>
-                                    <button class="px-3 py-1 hover:bg-gray-100">+</button>
-                                </div>
-                                <button class="text-red-500 hover:text-red-700 text-sm font-medium"><i class="fas fa-trash-alt mr-1"></i> Remove</button>
-                            </div>
-                        </div>
-                        <div class="text-right">
-                            <p class="font-bold text-xl text-primary">₹549</p>
-                        </div>
-                    </div>
+                <div id="cart-items-container" class="lg:col-span-2 space-y-6">
+                    <!-- Dynamic items will load here -->
                 </div>
 
                 <!-- Order Summary -->
                 <div class="lg:col-span-1">
                     <div class="bg-white p-8 rounded-xl border shadow-sm sticky top-24">
                         <h2 class="text-xl font-bold mb-6 border-b pb-4">Order Summary</h2>
-                        <div class="space-y-4 mb-8">
-                            <div class="flex justify-between text-gray-600">
-                                <span>Subtotal</span>
-                                <span>₹999</span>
-                            </div>
-                            <div class="flex justify-between text-gray-600">
-                                <span>Shipping Charges</span>
-                                <span>₹70</span>
-                            </div>
-                            <div class="flex justify-between text-gray-600">
-                                <span>COD Charges</span>
-                                <span class="text-green-600 font-medium">₹49</span>
-                            </div>
-                            <div class="flex justify-between text-xl font-bold text-gray-900 pt-4 border-t">
-                                <span>Total</span>
-                                <span class="text-primary">₹1,118</span>
-                            </div>
+                        <div id="summary-container" class="space-y-4 mb-8">
+                            <!-- Summary values will update here -->
                         </div>
                         <a href="checkout.html" class="block w-full bg-primary text-white text-center py-4 rounded-lg font-bold hover:bg-blue-700 transition shadow-lg">Proceed To Checkout</a>
                         <p class="mt-4 text-center text-xs text-gray-400 italic">Secure Checkout Powered by PROJECT WALA</p>
@@ -120,6 +70,128 @@
             <p>&copy; 2026 PROJECT WALA. All Rights Reserved.</p>
         </div>
     </footer>
+
+    <!-- Firebase & Database Scripts -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
+    <script src="firebase-config.js"></script>
+    <script src="database.js"></script>
+
+    <script>
+        async function loadCart() {
+            const cartIds = JSON.parse(localStorage.getItem('pw_cart')) || [];
+            const products = await Database.getProducts();
+
+            // Count quantities
+            const cartCounts = {};
+            cartIds.forEach(id => {
+                cartCounts[id] = (cartCounts[id] || 0) + 1;
+            });
+
+            const container = document.getElementById('cart-items-container');
+            const summaryContainer = document.getElementById('summary-container');
+
+            if (cartIds.length === 0) {
+                container.innerHTML = `
+                    <div class="bg-white p-12 rounded-xl border text-center shadow-sm">
+                        <i class="fas fa-shopping-basket text-5xl text-gray-200 mb-4"></i>
+                        <p class="text-gray-500 text-lg font-medium mb-6">Your cart is empty</p>
+                        <a href="index.html" class="inline-block bg-primary text-white px-8 py-3 rounded-lg font-bold hover:bg-blue-700 transition">Continue Shopping</a>
+                    </div>
+                `;
+                summaryContainer.innerHTML = '<p class="text-center text-gray-400 italic">Add items to see summary</p>';
+                return;
+            }
+
+            let subtotal = 0;
+            const cartItemsHtml = Object.keys(cartCounts).map(id => {
+                const product = products.find(p => p.id === id);
+                if (!product) return '';
+
+                const itemTotal = product.price * cartCounts[id];
+                subtotal += itemTotal;
+
+                return `
+                    <div class="bg-white p-6 rounded-xl border flex gap-6 items-center shadow-sm">
+                        <img src="${product.image}" alt="${product.name}" class="w-24 h-24 object-contain">
+                        <div class="flex-grow">
+                            <h3 class="font-bold text-lg mb-1">${product.name}</h3>
+                            <p class="text-gray-500 text-sm mb-4">Category: ${product.category}</p>
+                            <div class="flex items-center gap-4">
+                                <div class="flex items-center border rounded">
+                                    <button onclick="changeQty('${id}', -1)" class="px-3 py-1 hover:bg-gray-100">-</button>
+                                    <span class="px-4 py-1 border-x font-medium">${cartCounts[id]}</span>
+                                    <button onclick="changeQty('${id}', 1)" class="px-3 py-1 hover:bg-gray-100">+</button>
+                                </div>
+                                <button onclick="removeFromCart('${id}')" class="text-red-500 hover:text-red-700 text-sm font-medium"><i class="fas fa-trash-alt mr-1"></i> Remove</button>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <p class="font-bold text-xl text-primary">₹${itemTotal}</p>
+                            <p class="text-xs text-gray-400 mt-1">₹${product.price} each</p>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            container.innerHTML = cartItemsHtml;
+
+            const shipping = 70;
+            const cod = 49;
+            const total = subtotal + shipping + cod;
+
+            summaryContainer.innerHTML = `
+                <div class="flex justify-between text-gray-600">
+                    <span>Subtotal</span>
+                    <span>₹${subtotal}</span>
+                </div>
+                <div class="flex justify-between text-gray-600">
+                    <span>Shipping Charges</span>
+                    <span>₹${shipping}</span>
+                </div>
+                <div class="flex justify-between text-gray-600">
+                    <span>COD Charges</span>
+                    <span class="text-green-600 font-medium">₹${cod}</span>
+                </div>
+                <div class="flex justify-between text-xl font-bold text-gray-900 pt-4 border-t">
+                    <span>Total</span>
+                    <span class="text-primary">₹${total}</span>
+                </div>
+            `;
+        }
+
+        function changeQty(id, delta) {
+            let cart = JSON.parse(localStorage.getItem('pw_cart')) || [];
+            if (delta > 0) {
+                cart.push(id);
+            } else {
+                const index = cart.indexOf(id);
+                if (index > -1) cart.splice(index, 1);
+            }
+            localStorage.setItem('pw_cart', JSON.stringify(cart));
+            loadCart();
+            updateCartBadge();
+        }
+
+        function removeFromCart(id) {
+            let cart = JSON.parse(localStorage.getItem('pw_cart')) || [];
+            cart = cart.filter(itemId => itemId !== id);
+            localStorage.setItem('pw_cart', JSON.stringify(cart));
+            loadCart();
+            updateCartBadge();
+        }
+
+        function updateCartBadge() {
+            const cart = JSON.parse(localStorage.getItem('pw_cart')) || [];
+            const badge = document.getElementById('cart-badge');
+            if (badge) badge.innerText = cart.length;
+        }
+
+        window.onload = () => {
+            loadCart();
+            updateCartBadge();
+        };
+    </script>
 
 </body>
 </html>

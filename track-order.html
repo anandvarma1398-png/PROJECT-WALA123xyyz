@@ -31,7 +31,10 @@
             </nav>
             <div class="flex items-center space-x-5 text-gray-600">
                 <button><i class="fas fa-search text-xl"></i></button>
-                <a href="cart.html" class="relative"><i class="fas fa-shopping-cart text-xl"></i></a>
+                <a href="cart.html" class="relative">
+                    <i class="fas fa-shopping-cart text-xl"></i>
+                    <span id="cart-badge" class="absolute -top-2 -right-2 bg-red-500 text-white text-[10px] rounded-full w-4 h-4 flex items-center justify-center">0</span>
+                </a>
                 <button><i class="fas fa-user-circle text-xl"></i></button>
             </div>
         </div>
@@ -121,7 +124,14 @@
             if (id) {
                 document.getElementById('order-id').value = id;
             }
+            updateCartBadge();
         };
+
+        function updateCartBadge() {
+            const cart = JSON.parse(localStorage.getItem('pw_cart')) || [];
+            const badge = document.getElementById('cart-badge');
+            if (badge) badge.innerText = cart.length;
+        }
     </script>
 
 </body>
