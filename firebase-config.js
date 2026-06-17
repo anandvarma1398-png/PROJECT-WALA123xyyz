@@ -1,5 +1,5 @@
 /**
- * PROJECT WALA - Firebase Configuration
+ * PROJECT WALA - Firebase Initializer
  */
 
 const firebaseConfig = {
@@ -12,17 +12,18 @@ const firebaseConfig = {
     measurementId: "G-EHP4P8RBV4"
 };
 
-// GLOBAL SETTINGS
+// GLOBAL DB ACCESS
 window.USE_FIREBASE = true;
 window.db = null;
 
-if (window.USE_FIREBASE) {
-    try {
+try {
+    if (typeof firebase !== 'undefined') {
         firebase.initializeApp(firebaseConfig);
         window.db = firebase.firestore();
-        console.log("✅ Firebase Connected Successfully");
-    } catch (error) {
-        console.error("❌ Firebase Init Error:", error);
-        alert("Firebase failed to load. Check your internet or API keys.");
+        console.log("🔥 Firebase Ready");
+    } else {
+        console.error("Firebase scripts not loaded!");
     }
+} catch (e) {
+    console.error("Firebase Init Error:", e);
 }
