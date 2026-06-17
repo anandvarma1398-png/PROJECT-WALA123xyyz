@@ -145,6 +145,19 @@
                 return;
             }
 
+            // Get product details for the admin to see names
+            const cartIds = JSON.parse(localStorage.getItem('pw_cart')) || [];
+            if (cartIds.length === 0) {
+                alert('Your cart is empty!');
+                return;
+            }
+
+            const products = await Database.getProducts();
+            const orderItems = cartIds.map(id => {
+                const p = products.find(item => item.id === id);
+                return p ? p.name : 'Unknown Product';
+            });
+
             const fullAddress = `${address}, ${city}, ${state} - ${pincode}`;
 
             const orderData = {
@@ -152,16 +165,15 @@
                 customerEmail: email,
                 customerMobile: mobile,
                 customerAddress: fullAddress,
-                total: 1118, // In a real app, calculate this from cart
-                items: JSON.parse(localStorage.getItem('pw_cart')) || []
+                total: 1118, // Calculate actual total in a real app
+                items: orderItems, // Now saving actual product names
+                date: new Date().toISOString()
             };
 
             const orderId = await Database.placeOrder(orderData);
 
-            // Clear cart
             localStorage.setItem('pw_cart', JSON.stringify([]));
-
-            alert('Order placed successfully! Your Order ID is: ' + orderId);
+            alert('Order placed successfully! ID: ' + orderId);
             window.location.href = 'track-order.html?id=' + orderId;
         };
     </script>

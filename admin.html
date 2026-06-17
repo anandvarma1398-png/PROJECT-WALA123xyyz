@@ -151,12 +151,13 @@
             <div class="card overflow-x-auto">
                 <table class="w-full text-left">
                     <thead>
-                        <tr class="text-gray-400 text-sm border-b">
+                        <tr class="text-gray-400 text-xs border-b">
                             <th class="pb-3 px-2">Order ID</th>
-                            <th class="pb-3 px-2">Customer</th>
+                            <th class="pb-3 px-2">Customer Info</th>
+                            <th class="pb-3 px-2">Products</th>
                             <th class="pb-3 px-2">Amount</th>
                             <th class="pb-3 px-2">Status</th>
-                            <th class="pb-3 px-2">Update Status</th>
+                            <th class="pb-3 px-2">Action</th>
                         </tr>
                     </thead>
                     <tbody id="orders-list" class="text-sm">
@@ -250,13 +251,22 @@
             oList.innerHTML = orders.map(o => `
                 <tr class="border-b last:border-0 hover:bg-gray-50">
                     <td class="py-4 px-2 font-bold text-blue-600">${o.orderId}</td>
-                    <td class="py-4 px-2">${o.customerName}</td>
-                    <td class="py-4 px-2 font-bold">₹${o.total}</td>
+                    <td class="py-4 px-2">
+                        <div class="font-bold">${o.customerName}</div>
+                        <div class="text-[10px] text-gray-500">${o.customerEmail}</div>
+                        <div class="text-[10px] text-gray-400">${o.customerMobile}</div>
+                    </td>
+                    <td class="py-4 px-2">
+                        <div class="text-[10px] max-w-[200px] whitespace-normal">
+                            ${o.items ? (Array.isArray(o.items) ? o.items.join(', ') : o.items) : 'No items'}
+                        </div>
+                    </td>
+                    <td class="py-4 px-2 font-bold text-sm">₹${o.total}</td>
                     <td class="py-4 px-2">
                         <span class="status-pill ${getStatusClass(o.status)}">${o.status}</span>
                     </td>
                     <td class="py-4 px-2">
-                        <select onchange="updateOrder('${o.id || o.orderId}', this.value)" class="p-1 border rounded text-xs">
+                        <select onchange="updateOrder('${o.id || o.orderId}', this.value)" class="p-1 border rounded text-[10px] bg-white">
                             <option value="Pending" ${o.status === 'Pending' ? 'selected' : ''}>Pending</option>
                             <option value="Out for Delivery" ${o.status === 'Out for Delivery' ? 'selected' : ''}>Out for Delivery</option>
                             <option value="Delivered" ${o.status === 'Delivered' ? 'selected' : ''}>Delivered</option>
@@ -264,6 +274,10 @@
                     </td>
                 </tr>
             `).join('');
+
+            if (orders.length === 0) {
+                oList.innerHTML = '<tr><td colspan="6" class="py-10 text-center text-gray-400 italic">No orders placed yet.</td></tr>';
+            }
 
             // Customers List
             const cList = document.getElementById('customers-list');
