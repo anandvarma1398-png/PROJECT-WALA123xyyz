@@ -137,5 +137,18 @@ const Database = {
                 body: JSON.stringify({ status })
             });
         }
+    },
+
+    getInitialMockProducts() {
+        return [
+            {
+                id: 'p1',
+                name: 'Arduino Uno R3',
+                category: 'Microcontrollers',
+                price: 249,
+                image: 'https://drive.google.com/uc?export=view&id=1B7YVc3BxrWrfPGn7V5ujVBFCK05Q2TGK',
+                description: 'Classic Arduino Uno board for electronics projects.'
+            }
+        ];
     }
 };
