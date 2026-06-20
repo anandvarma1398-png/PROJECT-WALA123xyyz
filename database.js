@@ -12,18 +12,39 @@ const Database = {
         return this.provider;
     },
 
+    // Fix Google Drive Link for display
+    fixImageUrl(url) {
+        if (!url) return 'https://via.placeholder.com/300?text=No+Image';
+        if (url.includes('drive.google.com')) {
+            let fileId = '';
+            if (url.includes('/d/')) {
+                fileId = url.split('/d/')[1]?.split('/')[0];
+            } else if (url.includes('id=')) {
+                fileId = url.split('id=')[1]?.split('&')[0];
+            }
+            if (fileId) {
+                // thumbnail link is more reliable for viewing
+                return `https://drive.google.com/thumbnail?id=${fileId}&sz=w1000`;
+            }
+        }
+        return url;
+    },
+
     async getProducts() {
         try {
             const p = this.getProvider();
-            if (p === 'firebase') {
+            let products = [];
+            if (p === 'firebase' && window.db) {
                 const snap = await window.db.collection('products').get();
-                return snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                products = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
             } else if (p === 'node') {
                 const res = await fetch(`${this.nodeUrl}/products`);
-                return await res.json();
+                products = await res.json();
             } else {
-                return JSON.parse(localStorage.getItem('pw_products')) || [];
+                products = JSON.parse(localStorage.getItem('pw_products')) || this.getInitialMockProducts();
             }
+            // Ensure all images are fixed for display
+            return products.map(p => ({ ...p, image: this.fixImageUrl(p.image) }));
         } catch (e) {
             console.error("Fetch Error:", e);
             return [];
@@ -33,9 +54,10 @@ const Database = {
     // Real-time observer (Polled for local/node)
     observeProducts(callback) {
         const p = this.getProvider();
-        if (p === 'firebase') {
+        if (p === 'firebase' && window.db) {
             return window.db.collection('products').onSnapshot(snap => {
-                callback(snap.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+                const products = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                callback(products.map(p => ({ ...p, image: this.fixImageUrl(p.image) })));
             });
         } else {
             // Polling every 3 seconds for non-firebase providers
@@ -51,12 +73,7 @@ const Database = {
     async addProduct(product) {
         const p = this.getProvider();
 
-        if (product.image && product.image.includes('drive.google.com')) {
-            const id = product.image.split('/d/')[1]?.split('/')[0];
-            if (id) product.image = `https://drive.google.com/uc?export=view&id=${id}`;
-        }
-
-        if (p === 'firebase') {
+        if (p === 'firebase' && window.db) {
             return await window.db.collection('products').add(product);
         } else if (p === 'node') {
             const res = await fetch(`${this.nodeUrl}/products`, {
@@ -66,7 +83,7 @@ const Database = {
             });
             return await res.json();
         } else {
-            const products = await this.getProducts();
+            const products = JSON.parse(localStorage.getItem('pw_products')) || [];
             const newP = { id: 'P' + Date.now(), ...product };
             products.push(newP);
             localStorage.setItem('pw_products', JSON.stringify(products));

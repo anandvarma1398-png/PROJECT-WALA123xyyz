@@ -380,11 +380,10 @@
                         name: 'Arduino Uno R3',
                         category: 'Microcontrollers',
                         price: 249,
-                        image: 'https://drive.google.com/file/d/1B7YVc3BxrWrfPGn7V5ujVBFCK05Q2TGK/view?usp=drivesdk',
+                        image: '1B7YVc3BxrWrfPGn7V5ujVBFCK05Q2TGK', // Store ID instead
                         description: 'The Arduino Uno is a microcontroller board based on the ATmega328P. It is the most used and documented board of the whole Arduino family.'
                     };
                     await Database.addProduct(defaultProduct);
-                    // The observer will trigger again automatically
                 }
                 allProducts = products;
                 renderProducts(products);
