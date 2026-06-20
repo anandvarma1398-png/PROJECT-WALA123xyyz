@@ -1,58 +1,63 @@
 /**
- * PROJECT WALA - Enhanced Database Layer
- * includes Timeouts to prevent "Stuck" state
+ * PROJECT WALA - Unified Database Layer
+ * Supports: LocalStorage, Node.js Backend, and Google Firebase
  */
 
 const Database = {
-    // Helper to timeout a promise (Prevents hanging forever)
-    withTimeout(promise, ms = 5000) {
-        let timeout = new Promise((_, reject) =>
-            setTimeout(() => reject(new Error('Connection Timeout: Is your Firestore Database enabled in Google Console?')), ms)
-        );
-        return Promise.race([promise, timeout]);
+    // SETTINGS: Choose your backend type
+    // options: 'local' | 'node' | 'firebase'
+    provider: 'local',
+    nodeUrl: 'http://localhost:3000/api',
+
+    // Initialize provider based on availability
+    getProvider() {
+        if (window.USE_FIREBASE && window.db) return 'firebase';
+        // Check if Node server is likely running (you can set this manually to 'node')
+        return this.provider;
     },
 
     async getProducts() {
-        try {
-            if (window.USE_FIREBASE && window.db) {
-                const snapshot = await this.withTimeout(window.db.collection('products').get());
-                return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-            }
+        const p = this.getProvider();
+        if (p === 'firebase') {
+            const snap = await window.db.collection('products').get();
+            return snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        } else if (p === 'node') {
+            const res = await fetch(`${this.nodeUrl}/products`);
+            return await res.json();
+        } else {
             return JSON.parse(localStorage.getItem('pw_products')) || [];
-        } catch (error) {
-            console.error("Fetch Error:", error);
-            return [];
         }
     },
 
     observeProducts(callback) {
-        if (window.USE_FIREBASE && window.db) {
-            return window.db.collection('products').onSnapshot(snapshot => {
-                const products = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                callback(products);
-            }, err => console.error("Sync Error:", err));
+        const p = this.getProvider();
+        if (p === 'firebase') {
+            return window.db.collection('products').onSnapshot(snap => {
+                callback(snap.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+            });
         }
-        callback(JSON.parse(localStorage.getItem('pw_products')) || []);
+        // For other providers, we just fetch once
+        this.getProducts().then(callback);
     },
 
     async addProduct(product) {
-        console.log("Attempting to add product:", product);
+        const p = this.getProvider();
 
-        // Fix Drive Link
+        // Drive image conversion
         if (product.image && product.image.includes('drive.google.com')) {
             const id = product.image.split('/d/')[1]?.split('/')[0];
             if (id) product.image = `https://drive.google.com/uc?export=view&id=${id}`;
         }
 
-        if (window.USE_FIREBASE && window.db) {
-            try {
-                const docRef = await this.withTimeout(window.db.collection('products').add(product));
-                console.log("Product added with ID:", docRef.id);
-                return docRef;
-            } catch (error) {
-                console.error("Firestore Add Error:", error);
-                throw error;
-            }
+        if (p === 'firebase') {
+            return await window.db.collection('products').add(product);
+        } else if (p === 'node') {
+            const res = await fetch(`${this.nodeUrl}/products`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(product)
+            });
+            return await res.json();
         } else {
             const products = await this.getProducts();
             const newP = { id: 'local_' + Date.now(), ...product };
@@ -63,8 +68,11 @@ const Database = {
     },
 
     async deleteProduct(id) {
-        if (window.USE_FIREBASE && window.db) {
+        const p = this.getProvider();
+        if (p === 'firebase') {
             await window.db.collection('products').doc(id).delete();
+        } else if (p === 'node') {
+            await fetch(`${this.nodeUrl}/products/${id}`, { method: 'DELETE' });
         } else {
             let products = await this.getProducts();
             products = products.filter(p => p.id !== id);
@@ -73,25 +81,39 @@ const Database = {
     },
 
     async placeOrder(order) {
-        const orderId = 'PW' + (Math.floor(Math.random() * 9000) + 1000);
-        const finalOrder = { orderId, date: new Date().toISOString(), status: 'Pending', ...order };
-
-        if (window.USE_FIREBASE && window.db) {
-            await this.withTimeout(window.db.collection('orders').add(finalOrder));
+        const p = this.getProvider();
+        if (p === 'firebase') {
+            const orderId = 'PW' + (Math.floor(Math.random() * 9000) + 1000);
+            await window.db.collection('orders').add({ orderId, status: 'Pending', date: new Date().toISOString(), ...order });
+            return orderId;
+        } else if (p === 'node') {
+            const res = await fetch(`${this.nodeUrl}/orders`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(order)
+            });
+            const data = await res.json();
+            return data.orderId;
         } else {
+            const orderId = 'PW' + (Math.floor(Math.random() * 9000) + 1000);
             const orders = JSON.parse(localStorage.getItem('pw_orders')) || [];
-            orders.push(finalOrder);
+            orders.push({ orderId, status: 'Pending', date: new Date().toISOString(), ...order });
             localStorage.setItem('pw_orders', JSON.stringify(orders));
+            return orderId;
         }
-        return orderId;
     },
 
     async getOrders() {
-        if (window.USE_FIREBASE && window.db) {
-            const snap = await this.withTimeout(window.db.collection('orders').get());
+        const p = this.getProvider();
+        if (p === 'firebase') {
+            const snap = await window.db.collection('orders').orderBy('date', 'desc').get();
             return snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        } else if (p === 'node') {
+            const res = await fetch(`${this.nodeUrl}/orders`);
+            return await res.json();
+        } else {
+            return JSON.parse(localStorage.getItem('pw_orders')) || [];
         }
-        return JSON.parse(localStorage.getItem('pw_orders')) || [];
     },
 
     async getOrderById(orderId) {
@@ -100,8 +122,15 @@ const Database = {
     },
 
     async updateOrderStatus(id, status) {
-        if (window.USE_FIREBASE && window.db) {
+        const p = this.getProvider();
+        if (p === 'firebase') {
             await window.db.collection('orders').doc(id).update({ status });
+        } else if (p === 'node') {
+            await fetch(`${this.nodeUrl}/orders/${id}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ status })
+            });
         }
     }
 };
