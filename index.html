@@ -369,12 +369,43 @@
     <script src="database.js"></script>
 
     <script>
+        let allProducts = [];
+
         // Real-time synchronization
-        function initApp() {
-            Database.observeProducts((products) => {
+        async function initApp() {
+            Database.observeProducts(async (products) => {
+                // If cloud database is empty, add the default Arduino Uno automatically
+                if (products.length === 0 && window.USE_FIREBASE && window.db) {
+                    const defaultProduct = {
+                        name: 'Arduino Uno R3',
+                        category: 'Microcontrollers',
+                        price: 249,
+                        image: 'https://drive.google.com/file/d/1B7YVc3BxrWrfPGn7V5ujVBFCK05Q2TGK/view?usp=drivesdk',
+                        description: 'The Arduino Uno is a microcontroller board based on the ATmega328P. It is the most used and documented board of the whole Arduino family.'
+                    };
+                    await Database.addProduct(defaultProduct);
+                    // The observer will trigger again automatically
+                }
+                allProducts = products;
                 renderProducts(products);
             });
             updateCartBadge();
+
+            // Search functionality
+            const searchInput = document.getElementById('search-input');
+            const searchBtn = searchInput.nextElementSibling;
+
+            const handleSearch = () => {
+                const query = searchInput.value.toLowerCase();
+                const filtered = allProducts.filter(p =>
+                    p.name.toLowerCase().includes(query) ||
+                    p.category.toLowerCase().includes(query)
+                );
+                renderProducts(filtered);
+            };
+
+            searchInput.oninput = handleSearch;
+            searchBtn.onclick = handleSearch;
         }
 
         function renderProducts(products) {
@@ -383,9 +414,10 @@
 
             if (products.length === 0) {
                 container.innerHTML = `
-                    <div class="col-span-full text-center py-20 bg-gray-50 rounded-xl border-2 border-dashed">
-                        <i class="fas fa-box-open text-4xl text-gray-300 mb-4"></i>
-                        <p class="text-gray-500 font-medium">Coming Soon! We are adding new products.</p>
+                    <div class="col-span-full text-center py-20 bg-white rounded-xl border shadow-sm">
+                        <i class="fas fa-search text-4xl text-gray-200 mb-4"></i>
+                        <p class="text-gray-500 font-medium">No products found matching your search.</p>
+                        <button onclick="renderProducts(allProducts)" class="mt-4 text-primary font-bold underline">Show all products</button>
                     </div>
                 `;
                 return;
@@ -395,17 +427,19 @@
                 <div class="border rounded-lg overflow-hidden hover:shadow-lg transition flex flex-col group animate-fade-in bg-white">
                     <a href="product-detail.html?id=${product.id}" class="relative pt-[100%] bg-gray-50 overflow-hidden block">
                         <img src="${product.image}" alt="${product.name}" class="absolute inset-0 w-full h-full object-contain p-4 group-hover:scale-110 transition duration-300">
-                        ${product.originalPrice ? `<span class="absolute top-2 left-2 bg-red-500 text-white text-[10px] font-bold px-2 py-1 rounded shadow">SALE</span>` : ''}
+                        <span class="absolute top-2 left-2 bg-red-500 text-white text-[10px] font-bold px-2 py-1 rounded shadow">NEW</span>
                     </a>
                     <div class="p-4 flex flex-col flex-grow">
-                        <span class="text-xs text-gray-500 uppercase tracking-wider mb-1">${product.category}</span>
-                        <a href="product-detail.html?id=${product.id}" class="font-semibold mb-2 line-clamp-2 hover:text-primary transition text-gray-800">${product.name}</a>
+                        <span class="text-[10px] text-primary font-bold uppercase tracking-widest mb-1">${product.category}</span>
+                        <a href="product-detail.html?id=${product.id}" class="font-semibold mb-2 line-clamp-2 hover:text-primary transition text-gray-800 h-12">${product.name}</a>
                         <div class="mt-auto">
                             <div class="flex items-center gap-2 mb-4">
                                 <span class="text-xl font-bold text-primary">₹${product.price}</span>
-                                ${product.originalPrice ? `<span class="text-sm text-gray-400 line-through">₹${product.originalPrice}</span>` : ''}
+                                ${product.price < 300 ? `<span class="text-xs text-gray-400 line-through">₹${Math.round(product.price * 1.5)}</span>` : ''}
                             </div>
-                            <button onclick="addToCart('${product.id}')" class="w-full bg-primary text-white py-2 rounded hover:bg-blue-700 transition font-medium shadow-sm">Add to Cart</button>
+                            <button onclick="addToCart('${product.id}')" class="w-full bg-primary text-white py-2 rounded hover:bg-blue-700 transition font-bold shadow-sm flex items-center justify-center gap-2">
+                                <i class="fas fa-shopping-cart text-sm"></i> Add to Cart
+                            </button>
                         </div>
                     </div>
                 </div>

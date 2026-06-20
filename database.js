@@ -147,7 +147,7 @@ const Database = {
                 category: 'Microcontrollers',
                 price: 249,
                 image: 'https://drive.google.com/uc?export=view&id=1B7YVc3BxrWrfPGn7V5ujVBFCK05Q2TGK',
-                description: 'Classic Arduino Uno board for electronics projects.'
+                description: 'The Arduino Uno is a microcontroller board based on the ATmega328P. It has 14 digital input/output pins (of which 6 can be used as PWM outputs), 6 analog inputs, a 16 MHz ceramic resonator, a USB connection, a power jack, an ICSP header and a reset button.'
             }
         ];
     }
